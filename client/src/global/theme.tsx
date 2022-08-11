@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material";
 export const theme = createTheme({
   palette: {
     background: {
-      default: "#fff",
+      default: "#ffffff",
     },
     primary: {
       main: "#00a82d",
@@ -26,7 +26,8 @@ export const theme = createTheme({
     },
     divider: "rgba(0,0,0,0.12)",
     text: {
-      primary: "#000",
+      primary: "#000000",
+      secondary: "#CCCCCC",
     },
   },
   shape: {
@@ -50,7 +51,7 @@ export const theme = createTheme({
       fontSize: "1.5rem",
     },
     body2: {
-      fontSize: "0.875rem",
+      fontSize: "0.975rem",
     },
     button: {
       fontSize: "1.125rem",
