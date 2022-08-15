@@ -6,6 +6,8 @@ import City from "./models/City.js";
 import User from "./models/User.js";
 import BancodeDados from "./models/sql.js";
 
+// estudar pool de conexoes
+
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());

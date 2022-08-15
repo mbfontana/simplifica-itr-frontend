@@ -1,7 +1,7 @@
-import React from "react";
+
 import { useNavigate } from "react-router-dom";
 import { Stack, Typography } from "@mui/material";
-import { GreenButton } from "../../components/GreenButton.tsx";
+import { GreenButton } from "../../components/GreenButton";
 
 export const Home = () => {
   const navigate = useNavigate();

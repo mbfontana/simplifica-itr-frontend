@@ -1,10 +1,10 @@
-import React from "react";
+
 import { Box, Stack, Typography } from "@mui/material";
-import { theme } from "../../../global/theme.tsx";
-import { UserInfo } from "./UserInfo.tsx";
-import { RegisterButton } from "./RegisterButton.tsx";
-import { MenuItems } from "./MenuItems.tsx";
-import { SidebarItem } from "./SidebarItem.tsx";
+import { theme } from "../../../global/theme";
+import { UserInfo } from "./UserInfo";
+import { RegisterButton } from "./RegisterButton";
+import { MenuItems } from "./MenuItems";
+import { SidebarItem } from "./SidebarItem";
 
 export const Sidebar = () => {
   return (

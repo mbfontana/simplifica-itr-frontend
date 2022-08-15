@@ -1,5 +1,5 @@
-import React from "react";
-import { LoginForm } from "./components/LoginForm.tsx";
+
+import { LoginForm } from "./components/LoginForm";
 import { Box, Stack, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 

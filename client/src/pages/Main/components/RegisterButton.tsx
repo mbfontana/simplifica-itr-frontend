@@ -1,7 +1,7 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import React from "react";
-import { GreenButton } from "../../../components/GreenButton.tsx";
+
+import { GreenButton } from "../../../components/GreenButton";
 
 export const RegisterButton = () => {
   return (

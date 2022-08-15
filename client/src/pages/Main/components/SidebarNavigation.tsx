@@ -1,6 +1,6 @@
 import { Stack } from "@mui/material";
-import React from "react";
-import { theme } from "../../../global/theme.tsx";
+
+import { theme } from "../../../global/theme";
 
 type SidebarNavigationProps = {
   children?: React.ReactNode;

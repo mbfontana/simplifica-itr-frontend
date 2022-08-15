@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
 import {
@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import KeyIcon from "@mui/icons-material/Key";
-import { GreenButton } from "../../../components/GreenButton.tsx";
+import { GreenButton } from "../../../components/GreenButton";
 import { resourceLimits } from "worker_threads";
 
 export const LoginForm = () => {

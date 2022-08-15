@@ -1,6 +1,6 @@
 import { Avatar, Button, Stack, Typography, Box } from "@mui/material";
-import React from "react";
-import { theme } from "../../../global/theme.tsx";
+
+import { theme } from "../../../global/theme";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export const UserInfo = () => {

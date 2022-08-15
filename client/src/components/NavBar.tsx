@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, cloneElement } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -26,7 +26,7 @@ function ElevationScroll(props?: any) {
     threshold: 0,
   });
 
-  return React.cloneElement(children, {
+  return cloneElement(children, {
     elevation: trigger ? 3 : 0,
   });
 }
