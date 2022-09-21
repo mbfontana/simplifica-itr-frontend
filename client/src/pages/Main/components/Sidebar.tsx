@@ -1,8 +1,7 @@
-
 import { Box, Stack, Typography } from "@mui/material";
 import { theme } from "../../../global/theme";
 import { UserInfo } from "./UserInfo";
-import { RegisterButton } from "./RegisterButton";
+import { NewClienteButton } from "./NewClienteButton";
 import { MenuItems } from "./MenuItems";
 import { SidebarItem } from "./SidebarItem";
 
@@ -21,7 +20,8 @@ export const Sidebar = () => {
         <UserInfo />
       </SidebarItem>
       <SidebarItem alignItems="center">
-        <RegisterButton />
+        {/* Calls the button to open the forms that registers a new cliente */}
+        <NewClienteButton />
       </SidebarItem>
       <MenuItems />
     </Stack>
