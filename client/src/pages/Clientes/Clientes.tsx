@@ -17,7 +17,7 @@ export const Clientes = () => {
     <Stack sx={{ width: "100%", height: "100%" }}>
       <Stack sx={{ margin: 2 }} spacing={2}>
         <SearchBar
-          placeholder="Pesquise por cliente"
+          placeholder="Pesquisar por cliente"
           onChange={(e) => console.log(e)}
         />
         <Box width="100%" height="calc(100vh - 100px)">

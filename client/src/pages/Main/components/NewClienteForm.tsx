@@ -1,4 +1,5 @@
-import { Controller, useFormContext } from "react-hook-form";
+import { Stack } from "@mui/material";
+import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import { FormTextField } from "../../../components/FormTextField";
 
 // This file contains all the components that are input fields of the New Cliente Forms
@@ -57,5 +58,72 @@ export const InputLastName = () => {
         />
       )}
     />
+  );
+};
+
+export const InputCpf = () => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
+  return (
+    <Controller
+      control={control}
+      name="cpf"
+      rules={{
+        required: { value: true, message: "O CPF é obrigatório" },
+      }}
+      render={({ field }) => (
+        <FormTextField field={{ ...field }} error={errors.cpf} label="CPF" />
+      )}
+    />
+  );
+};
+
+type InputPropertiesProps = {
+  index: number;
+};
+
+export const InputPropertieName = ({ index }: InputPropertiesProps) => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
+  return (
+    <Controller
+      control={control}
+      name={`propertie.${index}.name`}
+      render={({ field }) => (
+        <FormTextField field={{ ...field }} label="Nome da propriedade" />
+      )}
+    />
+  );
+};
+
+export const InputPropertieNirf = ({ index }: InputPropertiesProps) => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
+  return (
+    <Controller
+      control={control}
+      name={`propertie.${index}.nirf`}
+      render={({ field }) => (
+        <FormTextField field={{ ...field }} label="NIRF da propriedade" />
+      )}
+    />
+  );
+};
+
+export const PropertiesForm = ({ index }) => {
+  return (
+    <Stack spacing={2} sx={{ width: "100%" }}>
+      <InputPropertieName index={index} />
+      <InputPropertieNirf index={index} />
+    </Stack>
   );
 };

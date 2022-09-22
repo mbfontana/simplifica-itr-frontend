@@ -8,7 +8,7 @@ import {
 
 type FormTextFieldProps = {
   field: ControllerRenderProps;
-  error: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
+  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
   label: string;
 };
 
