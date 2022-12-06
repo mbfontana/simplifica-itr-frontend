@@ -20,7 +20,6 @@ export const FormTextField = ({ field, error, label }: FormTextFieldProps) => {
       type="text"
       error={error !== undefined}
       helperText={error?.message.toString()}
-      variant="standard"
       {...field}
     />
   );

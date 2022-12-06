@@ -2,6 +2,8 @@ import {
   Button,
   Card,
   CardContent,
+  Chip,
+  Icon,
   IconButton,
   List,
   ListItem,
@@ -13,6 +15,8 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import * as Form from "./NewClienteForm";
 import { theme } from "../../../global/theme";
+import { emptyProperties } from "./NewCliente";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 type NewClienteFormProps = {
   onClick: (data: any) => void;
@@ -21,58 +25,126 @@ type NewClienteFormProps = {
 export const NewClienteFormLayout = ({ onClick }: NewClienteFormProps) => {
   const { handleSubmit } = useFormContext();
   const { fields, append, remove } = useFieldArray({
-    name: "propertie",
+    name: "properties",
   });
 
   return (
     <Card sx={{ minWidth: "600px", overflowY: "auto" }}>
       <CardContent>
-        <Stack spacing={3} sx={{ border: "0px solid red", padding: 2 }}>
-          <Form.InputFirstName />
-          <Form.InputLastName />
-          <Form.InputCpf />
-          <Stack
-            direction="row"
-            justifyContent="flex-start"
-            alignItems="center"
-            spacing={1}
-          >
-            <Typography variant="body1">Adicionar propriedade</Typography>
-            <IconButton
-              onClick={() => {
-                append("");
+        <Stack spacing={3} sx={{ padding: 2 }}>
+          <Typography sx={{ fontSize: "1.5rem" }}>
+            Cadastro de Cliente
+          </Typography>
+
+          <Stack spacing={2}>
+            <Typography
+              variant="body1"
+              sx={{
+                color: "#5B5B5B",
+                borderBottom: "solid 1px",
+                borderColor: "divider",
+                pb: 2,
               }}
             >
-              <AddIcon sx={{ color: theme.palette.primary.main }} />
-            </IconButton>
+              Informações pessoais
+            </Typography>
+            <Form.InputFirstName />
+            <Form.InputLastName />
+            <Form.InputCpf />
           </Stack>
 
-          <List>
-            {fields.map((item, index) => {
-              return (
-                <ListItem
-                  key={item.id}
-                  sx={{
-                    backgroundColor: "#FCFCFC",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    mb: 2,
-                  }}
-                >
-                  <RemoveIcon
-                    onClick={() => {
-                      remove(index);
-                    }}
-                    sx={{ color: "red", "&:hover": { cursor: "pointer" } }}
-                  />
-                  <Form.PropertiesForm index={index} />
-                </ListItem>
-              );
-            })}
-          </List>
+          <Stack spacing={0}>
+            <Stack spacing={2}>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: "#5B5B5B",
+                  borderBottom: "solid 1px",
+                  borderColor: "divider",
+                  pb: 2,
+                }}
+              >
+                Propriedades
+              </Typography>
+              <List>
+                {fields.map((item, index) => {
+                  return (
+                    <ListItem
+                      key={item.id}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                        p: 0,
+                      }}
+                    >
+                      <Stack
+                        direction="row"
+                        alignItems="flex-start"
+                        justifyContent="flex-start"
+                        width="100%"
+                        spacing={4}
+                      >
+                        <Stack
+                          direction="column"
+                          alignItems="center"
+                          justifyContent="center"
+                          spacing={2}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              width: "45px",
+                              height: "45px",
+                              borderRadius: 50,
+                              backgroundColor: "divider",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            {index + 1}
+                          </Typography>
+                          <IconButton
+                            onClick={() => {
+                              remove(index);
+                            }}
+                            sx={{
+                              color: "#FF1F1F",
+                              backgroundColor: "#FFB2B2",
+                              "&:hover": { backgroundColor: "#FFCCCC" },
+                            }}
+                          >
+                            <DeleteOutlineIcon />
+                          </IconButton>
+                        </Stack>
+                        <Stack width="100%">
+                          <Form.PropertiesForm propertieIndex={index} />
+                        </Stack>
+                      </Stack>
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </Stack>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                append([emptyProperties]);
+              }}
+              sx={{ width: "270px", borderRadius: 5 }}
+            >
+              Adicionar propriedade
+            </Button>
+          </Stack>
+
           <Stack justifyContent="end" alignItems="end">
-            <Button onClick={handleSubmit((d) => onClick(d))}>Cadastrar</Button>
+            <Button
+              variant="contained"
+              onClick={handleSubmit((d) => onClick(d))}
+            >
+              Cadastrar
+            </Button>
           </Stack>
         </Stack>
       </CardContent>
