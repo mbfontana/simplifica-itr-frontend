@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import { Login } from "./pages/Login/Login";
 import { Home } from "./pages/Home/Home";
 import { Main } from "./pages/Main/Main";
-import { HomeLayout } from "./components/HomeLayout";
 import { CheckAuthentication } from "./components/CheckAuthentication";
 import { Cidades } from "./pages/Cidades/Cidades";
 import { Clientes } from "./pages/Clientes/Clientes";
@@ -10,9 +9,7 @@ import { Clientes } from "./pages/Clientes/Clientes";
 const App = () => {
   return (
     <Routes>
-      <Route element={<HomeLayout />}>
-        <Route index element={<Home />} />
-      </Route>
+      <Route index element={<Home />} />
 
       <Route path="login" element={<Login />} />
 
