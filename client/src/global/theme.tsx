@@ -28,7 +28,7 @@ export const theme = createTheme({
     divider: "rgba(0,0,0,0.12)",
     text: {
       primary: "#000000",
-      secondary: "#CCCCCC",
+      secondary: "#737373", //#CCCCCC previous
     },
   },
   shape: {

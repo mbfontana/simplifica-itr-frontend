@@ -2,8 +2,6 @@ import {
   Button,
   Card,
   CardContent,
-  Chip,
-  Icon,
   IconButton,
   List,
   ListItem,
@@ -11,18 +9,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import * as Form from "./NewClienteForm";
-import { theme } from "../../../global/theme";
 import { emptyProperties } from "./NewCliente";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-type NewClienteFormProps = {
-  onClick: (data: any) => void;
-};
-
-export const NewClienteFormLayout = ({ onClick }: NewClienteFormProps) => {
+export const NewClienteFormLayout = () => {
   const { handleSubmit } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     name: "properties",
@@ -141,7 +132,7 @@ export const NewClienteFormLayout = ({ onClick }: NewClienteFormProps) => {
           <Stack justifyContent="end" alignItems="end">
             <Button
               variant="contained"
-              onClick={handleSubmit((d) => onClick(d))}
+              // onClick={handleSubmit((d) => onClick(d))}
             >
               Cadastrar
             </Button>

@@ -110,7 +110,10 @@ export const MenuBurger = () => {
           pt="50px"
           margin="0 100px"
         >
-          <GreenButton sx={{ width: "100%", height: "60px" }}>
+          <GreenButton
+            sx={{ width: "100%", height: "60px" }}
+            onClick={() => navigate("/login")}
+          >
             Entre
           </GreenButton>
           <Typography

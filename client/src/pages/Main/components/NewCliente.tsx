@@ -41,13 +41,11 @@ export const NewCliente = () => {
     },
   });
 
-  const onClick = (data: any) => console.log(data);
-
   return (
     // Provides the defaultValues to all children. In this case the children are the Controllers components of the form
     // NewClienteFormLayout bundles all the inputs together
     <FormProvider {...formHook}>
-      <NewClienteFormLayout onClick={onClick} />
+      <NewClienteFormLayout />
     </FormProvider>
   );
 };

@@ -1,19 +1,9 @@
-import {
-  Button,
-  Grid,
-  Link,
-  Stack,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
-import { Box, BoxProps } from "@mui/material";
-import { useState } from "react";
-import { theme } from "../../../global/theme";
-import useScrolPosition from "../../../hooks/useScrollPosition";
+import { Grid, Stack, useMediaQuery } from "@mui/material";
+import { Box } from "@mui/material";
 import { GreenButton } from "../../../components/GreenButton";
 import { NavLink } from "./NavLink";
-import { styled } from "styled-components";
 import { MenuBurger } from "./MenuBurger";
+import { useNavigate } from "react-router-dom";
 
 const pages = [
   { text: "Sobre", url: "#" },
@@ -22,7 +12,7 @@ const pages = [
 ];
 
 export const NavBar = () => {
-  const scrollPosition = useScrolPosition();
+  const navigate = useNavigate();
   const breakPoint = useMediaQuery("(min-width:769px)");
 
   return (
@@ -61,7 +51,12 @@ export const NavBar = () => {
               spacing={2}
             >
               <NavLink url="#" text="Ajuda" />
-              <GreenButton sx={{ width: "150px" }}>Entre</GreenButton>
+              <GreenButton
+                sx={{ width: "150px" }}
+                onClick={() => navigate("login")}
+              >
+                Entre
+              </GreenButton>
             </Stack>
           </Grid>
         </>

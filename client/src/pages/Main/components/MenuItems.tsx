@@ -9,15 +9,13 @@ import { SidebarNavigationRow } from "./SidebarNavigationRow";
 export const MenuItems = () => {
   return (
     <SidebarNavigation>
-      <SidebarNavigationRow text="Home" path="">
-        <HomeIcon />
-      </SidebarNavigationRow>
-      <SidebarNavigationRow text="Clientes" path="clientes">
-        <GroupsIcon />
-      </SidebarNavigationRow>
-      <SidebarNavigationRow text="Cidades" path="cidades">
-        <MapIcon />
-      </SidebarNavigationRow>
+      <SidebarNavigationRow text="Home" path="" icon={<HomeIcon />} />
+      <SidebarNavigationRow
+        text="Clientes"
+        path="clientes"
+        icon={<GroupsIcon />}
+      />
+      <SidebarNavigationRow text="Cidades" path="cidades" icon={<MapIcon />} />
     </SidebarNavigation>
   );
 };

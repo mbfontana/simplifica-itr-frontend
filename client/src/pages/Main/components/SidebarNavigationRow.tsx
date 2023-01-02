@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { theme } from "../../../global/theme";
 
 type SidebarNavigationRow = {
-  children?: React.ReactNode;
+  icon?: React.ReactNode;
   text: string;
   path: string;
 };
 
 export const SidebarNavigationRow = ({
-  children,
+  icon,
   text,
   path,
 }: SidebarNavigationRow) => {
@@ -30,7 +30,7 @@ export const SidebarNavigationRow = ({
           },
         }}
       >
-        {children}
+        {icon}
         <Typography
           variant="body2"
           sx={{ padding: "20px", color: theme.palette.text.secondary }}
