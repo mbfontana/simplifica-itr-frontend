@@ -1,55 +1,44 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Stack,
   Box,
-  Checkbox,
-  Typography,
-  Button,
   useMediaQuery,
+  Button,
+  Grid,
+  Typography,
 } from "@mui/material";
 import { GreenButton } from "../../../components/GreenButton";
 import { theme } from "../../../global/theme";
 import { useFormContext } from "react-hook-form";
-import * as Form from "./LoginForm";
-import { useQuery } from "react-query";
-import { loginUser } from "../../../api/Login";
-import { setAxiosToken } from "../../../api/AuthenticatedAxios";
+import * as Form from "./RegisterForm";
+import { RegisterFormInternalType } from "../Register";
 
-export const LoginFormLayout = () => {
-  const [checkbox, setCheckbox] = useState(false);
-  const breakPoint = useMediaQuery("(min-width:712px)");
+export const RegisterFormLayout = () => {
+  const mdBreakPoint = useMediaQuery("(min-width:712px)");
+  const smBreakPoint = useMediaQuery("(min-width:600px)");
   const navigate = useNavigate();
   const { handleSubmit } = useFormContext();
 
-  const onSubmit = (e) => {
-    // <QueryLogin email={e.email} password={e.password} />;
-
+  const onSubmit = (e: RegisterFormInternalType) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
+
     var raw = JSON.stringify({
+      name: `${e.firstName} ${e.lastName}`,
       email: e.email,
+      cpf: e.cpf,
       password: e.password,
     });
+
     var requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
     };
-    fetch("https://localhost:7072/api/user/login", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        if (result.token !== undefined) {
-          setAxiosToken("main", result.token);
-          if (checkbox) {
-            localStorage.setItem("token", result.token);
-          } else {
-            sessionStorage.setItem("token", result.token);
-          }
-          navigate("/main");
-        }
-      })
+
+    fetch("https://localhost:7072/api/user/register", requestOptions)
+      .then(() => navigate("/login"))
       .catch((error) => console.log("error", error));
   };
 
@@ -60,8 +49,8 @@ export const LoginFormLayout = () => {
       sx={{ backgroundImage: "url(images/login_background3.svg)" }}
     >
       <Stack
-        height={breakPoint ? "auto" : "100vh"}
-        width={breakPoint ? "auto" : "100vw"}
+        height={mdBreakPoint ? "auto" : "100vh"}
+        width={mdBreakPoint ? "auto" : "100vw"}
         sx={{
           margin: "auto",
           backgroundColor: theme.palette.background.default,
@@ -71,7 +60,7 @@ export const LoginFormLayout = () => {
         <Stack
           spacing={6}
           sx={{
-            padding: breakPoint
+            padding: mdBreakPoint
               ? "50px 80px 100px 80px"
               : "50px 50px 0px 50px ",
           }}
@@ -85,35 +74,39 @@ export const LoginFormLayout = () => {
             <Box component="img" src="logo.svg" alt="Logo" width="100%" />
           </Button>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={2}>
+            <Stack spacing={3}>
               <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                 <Form.InputEmail />
+              </Box>
+              <Stack>
+                <Grid container width="100%" ml={0}>
+                  <Grid
+                    item
+                    sm={6}
+                    xs={12}
+                    sx={smBreakPoint ? { pr: 1.5, pb: 0 } : { pr: 0, pb: 1.5 }}
+                  >
+                    <Form.InputFirstName />
+                  </Grid>
+                  <Grid
+                    item
+                    sm={6}
+                    xs={12}
+                    sx={smBreakPoint ? { pl: 1.5, pt: 0 } : { pl: 0, pt: 1.5 }}
+                  >
+                    <Form.InputLastName />
+                  </Grid>
+                </Grid>
+              </Stack>
+              <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+                <Form.InputCpf />
               </Box>
               <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                 <Form.InputPassword />
               </Box>
-              <Stack
-                direction="row"
-                justifyContent="flex-start"
-                alignItems="center"
-              >
-                <Checkbox
-                  onChange={(e) => setCheckbox(e.target.checked)}
-                  id="rememberMe"
-                  sx={{ ml: "-12px" }}
-                />
-                <Typography
-                  variant="body2"
-                  color={theme.palette.text.secondary}
-                >
-                  Me mantenha conectado
-                </Typography>
-              </Stack>
-              <Box>
-                <GreenButton sx={{ width: "100%" }} type="submit">
-                  Entrar
-                </GreenButton>
-              </Box>
+              <GreenButton type="submit" sx={{ width: "100%" }}>
+                Continue
+              </GreenButton>
             </Stack>
           </form>
           <Stack
@@ -124,7 +117,7 @@ export const LoginFormLayout = () => {
             mt={10}
           >
             <Typography variant="body2" color={theme.palette.text.secondary}>
-              Novo por aqui?
+              Já possui uma conta?
             </Typography>
             <Stack
               direction="row"
@@ -134,10 +127,10 @@ export const LoginFormLayout = () => {
               <Typography
                 variant="body1"
                 color={theme.palette.primary.main}
-                onClick={() => navigate("/register")}
+                onClick={() => navigate("/login")}
                 sx={{ cursor: "pointer" }}
               >
-                Assine agora
+                Entre agora
               </Typography>
               <Typography variant="body2" color={theme.palette.text.secondary}>
                 .
@@ -149,21 +142,3 @@ export const LoginFormLayout = () => {
     </Stack>
   );
 };
-
-type QueryLoginProps = {
-  email: string;
-  password: string;
-};
-
-// export const QueryLogin = ({ email, password }: QueryLoginProps) => {
-//   const loginResponse = useQuery(["login", email, password], ({ queryKey }) =>
-//     loginUser(queryKey[1] as string, queryKey[2] as string)
-//   );
-//   const loginData = loginResponse.data?.data;
-
-//   if (loginData) {
-//     return <Navigate to="/main" />;
-//   }
-//   console.log("login");
-//   return <></>;
-// };

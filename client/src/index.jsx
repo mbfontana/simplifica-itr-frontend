@@ -1,18 +1,20 @@
-import React from "react";
+import * as React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { BrowserRouter } from "react-router-dom";
 import "./index.css";
-import { ThemeProvider } from "@emotion/react";
-import { theme } from "./global/theme";
+import { BrowserRouter } from "react-router-dom";
+import { StartupProvider } from "./components/StartupProvider";
+import { QueryClient } from "react-query";
+
+export const reactQueryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <StartupProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </ThemeProvider>
+    </StartupProvider>
   </React.StrictMode>
 );

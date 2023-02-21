@@ -3,7 +3,7 @@ import mysql from "mysql2/promise";
 const connectionInformations = {
   host: "localhost",
   user: "root",
-  password: "password",
+  password: "Nanco@09",
   database: "simplificaitr",
 };
 
@@ -18,7 +18,7 @@ export default class User {
     const connection = await mysql.createConnection(connectionInformations);
 
     const [queryResponse] = await connection.query(
-      "SELECT * FROM usuario WHERE email = ?",
+      "SELECT * FROM user WHERE email = ?",
       [request.email]
     );
 
@@ -28,13 +28,13 @@ export default class User {
       return undefined;
     } else {
       await connection.query(
-        "INSERT INTO usuario (usuario_id, nome, cnpj, email, senha) VALUES (?, ?, ?, ?, ?)",
+        "INSERT INTO user (id, name, email, password, cpf) VALUES (?, ?, ?, ?, ?)",
         [
-          request.usuario_id,
-          request.nome,
-          request.cnpj,
+          request.id,
+          request.name,
           request.email,
-          request.senha,
+          request.password,
+          request.cpf,
         ]
       );
       console.log("Sucessfully Registered");
@@ -47,7 +47,7 @@ export default class User {
     const request = req.body;
     const connection = await mysql.createConnection(connectionInformations);
     const [queryResponse] = await connection.query(
-      "SELECT * FROM usuario WHERE email = ?",
+      "SELECT * FROM users WHERE email = ?",
       [request.email]
     );
     console.log(queryResponse);

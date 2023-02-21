@@ -24,7 +24,14 @@ export const NavBar = () => {
       container
     >
       <Grid item xs={breakPoint ? 3 : 6}>
-        <Box component="img" src="logo.svg" alt="Logo" width="200px" />
+        <Box
+          component="img"
+          src="logo.svg"
+          alt="Logo"
+          width="200px"
+          onClick={() => navigate("/")}
+          sx={{ cursor: "pointer" }}
+        />
       </Grid>
 
       {breakPoint ? (
@@ -53,7 +60,7 @@ export const NavBar = () => {
               <NavLink url="#" text="Ajuda" />
               <GreenButton
                 sx={{ width: "150px" }}
-                onClick={() => navigate("login")}
+                onClick={() => navigate("main")}
               >
                 Entre
               </GreenButton>

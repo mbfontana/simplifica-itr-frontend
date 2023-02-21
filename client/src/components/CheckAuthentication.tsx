@@ -1,21 +1,14 @@
-import { Navigate, useLocation } from "react-router-dom";
-import { MainLayout } from "../pages/Main/components/MainLayout";
 import {
   AuthenticatedBlock,
   UnauthenticatedBlock,
 } from "./AuthenticatedComponent";
 
-export const CheckAuthentication = () => {
-  const location = useLocation();
+export const CheckAuthentication = ({ isAuth, isNotAuth }) => {
   return (
     <>
-      <AuthenticatedBlock>
-        <MainLayout />
-      </AuthenticatedBlock>
+      <AuthenticatedBlock>{isAuth}</AuthenticatedBlock>
 
-      <UnauthenticatedBlock>
-        <Navigate to="/login" state={{ from: location }} />
-      </UnauthenticatedBlock>
+      <UnauthenticatedBlock>{isNotAuth}</UnauthenticatedBlock>
     </>
   );
 };

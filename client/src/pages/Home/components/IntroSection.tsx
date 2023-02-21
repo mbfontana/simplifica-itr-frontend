@@ -2,6 +2,7 @@ import { Stack, Grid, Typography, Box, useMediaQuery } from "@mui/material";
 import { GreenButton } from "../../../components/GreenButton";
 import { SideCarousel } from "./SideCarousel";
 import { BottomCarousel } from "./BottomCarousel";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const texts = [
   {
@@ -23,7 +24,9 @@ const texts = [
 ];
 
 export const IntroSection = () => {
+  const navigate = useNavigate();
   const smBreakPoint = useMediaQuery("(min-width:769px)");
+
   return (
     <Stack
       direction="column"
@@ -47,18 +50,14 @@ export const IntroSection = () => {
         </Typography>
         <GreenButton
           variant="contained"
-          // onClick={() =>
-          //   localStorage.getItem("token")
-          //     ? navigate("/main")
-          //     : navigate("/login")
-          // }
+          onClick={() => navigate("register")}
           sx={{
             color: "white",
             height: "60px",
             width: "200px",
           }}
         >
-          Cadastre-se
+          Assine Agora
         </GreenButton>
       </Stack>
       <Grid container direction="row" spacing={2}>

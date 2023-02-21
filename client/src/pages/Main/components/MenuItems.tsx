@@ -15,7 +15,7 @@ export const MenuItems = () => {
         path="clientes"
         icon={<GroupsIcon />}
       />
-      <SidebarNavigationRow text="Cidades" path="cidades" icon={<MapIcon />} />
+      <SidebarNavigationRow text="Cidades" path="cities" icon={<MapIcon />} />
     </SidebarNavigation>
   );
 };
