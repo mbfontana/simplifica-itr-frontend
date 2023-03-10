@@ -1,5 +1,6 @@
 import axios from "axios";
 import { AppConfig } from "../global/AppGlobalConfig";
+import { useSessionStore } from "../stores/SessionStore";
 
 const createClient = (baseURL: string) => {
   const client = axios.create({ baseURL });
@@ -17,15 +18,23 @@ const createClient = (baseURL: string) => {
     }
   );
 
+  client.interceptors.request.use((config) => {
+    const token = useSessionStore.getState().token;
+    config.headers = { Authorization: `Bearer ${token}` };
+    return config;
+  });
+
   return client;
 };
 
-export const MainAPI = createClient("https://localhost:7072/api");
+export const MainAPI = createClient("https://localhost:7072/api"); // Use the AppConfig in the future
+export const HomeAPI = createClient("");
 
 const lookup = {
   main: MainAPI,
+  home: HomeAPI,
 };
 
-export const setAxiosToken = (api: "main", token: string) => {
+export const setAxiosToken = (api: string, token: string) => {
   lookup[api].defaults.headers.common = { Authorization: `Bearer ${token}` };
 };

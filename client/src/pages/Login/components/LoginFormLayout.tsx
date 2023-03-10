@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Stack,
   Box,
@@ -12,9 +12,9 @@ import { GreenButton } from "../../../components/GreenButton";
 import { theme } from "../../../global/theme";
 import { useFormContext } from "react-hook-form";
 import * as Form from "./LoginForm";
-import { useQuery } from "react-query";
-import { loginUser } from "../../../api/Login";
-import { setAxiosToken } from "../../../api/AuthenticatedAxios";
+import { MainAPI } from "../../../api/AuthenticatedAxios";
+import { useSessionStore } from "../../../stores/SessionStore";
+import { LoginUserResponse } from "../../../api/Login/types";
 
 export const LoginFormLayout = () => {
   const [checkbox, setCheckbox] = useState(false);
@@ -22,35 +22,24 @@ export const LoginFormLayout = () => {
   const navigate = useNavigate();
   const { handleSubmit } = useFormContext();
 
-  const onSubmit = (e) => {
-    // <QueryLogin email={e.email} password={e.password} />;
+  const tryLoginUser = async (e: { email: string; password: string }) => {
+    try {
+      const response = await MainAPI.post<LoginUserResponse>("/user/login", {
+        email: e.email,
+        password: e.password,
+      });
+      const loggedUser = response.data;
+      useSessionStore.getState().setName(loggedUser.name);
+      useSessionStore.getState().setEmail(loggedUser.email);
+      useSessionStore.getState().setToken(loggedUser.token);
+      navigate("/main");
+    } catch (error: any) {
+      console.log("error", error);
+    }
+  };
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    var raw = JSON.stringify({
-      email: e.email,
-      password: e.password,
-    });
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-    };
-    fetch("https://localhost:7072/api/user/login", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        if (result.token !== undefined) {
-          setAxiosToken("main", result.token);
-          if (checkbox) {
-            localStorage.setItem("token", result.token);
-          } else {
-            sessionStorage.setItem("token", result.token);
-          }
-          navigate("/main");
-        }
-      })
-      .catch((error) => console.log("error", error));
+  const onSubmitHandler = (values) => {
+    tryLoginUser(values);
   };
 
   return (
@@ -84,7 +73,7 @@ export const LoginFormLayout = () => {
           >
             <Box component="img" src="logo.svg" alt="Logo" width="100%" />
           </Button>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmitHandler)}>
             <Stack spacing={2}>
               <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                 <Form.InputEmail />

@@ -1,56 +1,22 @@
+import { useContext, useEffect, useState } from "react";
+import { useStore } from "zustand";
 import { Stack, Box } from "@mui/material";
 import { DataGrid, GridColDef, GridRowModel } from "@mui/x-data-grid";
 import { useQuery } from "react-query";
 import { getAllCities } from "../../api/Cities";
 import { GetAllCitiesResponse } from "../../api/Cities/types";
 import { SearchBar } from "../../components/SearchBar";
-
-const columns: GridColDef[] = [
-  { field: "name", headerName: "Nome", type: "string", minWidth: 200 },
-  { field: "state", headerName: "Estado", flex: 1 },
-  {
-    field: "aptidaoBoa",
-    headerName: "Aptidão Boa",
-    flex: 2,
-    renderCell: (data) => `R$ ${data.value}`,
-  },
-  {
-    field: "aptidaoRegular",
-    headerName: "Aptidão Regular",
-    flex: 2,
-    renderCell: (data) => `R$ ${data.value}`,
-  },
-  {
-    field: "aptidaoRestrita",
-    headerName: "Aptidão Restrita",
-    flex: 2,
-    renderCell: (data) => `R$ ${data.value}`,
-  },
-  {
-    field: "pastagemPlantada",
-    headerName: "Pastagem Plantada",
-    flex: 2,
-    renderCell: (data) => `R$ ${data.value}`,
-  },
-  {
-    field: "silvicultura",
-    headerName: "Silvicultura",
-    flex: 2,
-    renderCell: (data) => `R$ ${data.value}`,
-  },
-  {
-    field: "preservacao",
-    headerName: "Preservação",
-    flex: 2,
-    renderCell: (data) => `R$ ${data.value}`,
-  },
-  { field: "font", headerName: "Fonte", flex: 0.5 },
-];
+import { useCityFilterStore } from "../../stores/CitiesTableContext";
+import { CityColumns } from "./components/CityColumns";
+import { useSessionStore } from "../../stores/SessionStore";
 
 export const Cities = () => {
-  const allCitiesResponse = useQuery(["cityRows"], getAllCities);
-  const rows: GridRowModel<GetAllCitiesResponse[]> =
-    allCitiesResponse.data?.data;
+  //const filterValue = useStore(useCityFilterStore, (e) => e.filterValue);
+  const rowsQuery = useQuery(["cityRows"], getAllCities);
+  const rows: GridRowModel<GetAllCitiesResponse[]> = rowsQuery.data?.data;
+  const filterValue = "";
+
+  if (filterValue !== "") rows.map((e) => e.name.includes(filterValue));
 
   if (rows) {
     return (
@@ -58,10 +24,14 @@ export const Cities = () => {
         <Stack sx={{ margin: 2 }} spacing={2}>
           <SearchBar
             placeholder="Pesquisar por cidade"
-            onChange={(e) => console.log(e)}
+            onChange={(searchValue) =>
+              rows.map((row) => {
+                return row.name.includes(searchValue);
+              })
+            }
           />
           <Box width="100%" height="calc(100vh - 100px)">
-            <DataGrid rows={rows} columns={columns} />
+            <DataGrid rows={rows} columns={CityColumns} />
           </Box>
         </Stack>
       </Stack>

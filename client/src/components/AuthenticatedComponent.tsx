@@ -1,3 +1,5 @@
+import { useSessionStore } from "../stores/SessionStore";
+
 interface AuthenticatedComponentProps {
   children: JSX.Element;
 }
@@ -5,17 +7,15 @@ interface AuthenticatedComponentProps {
 export const AuthenticatedBlock = ({
   children,
 }: AuthenticatedComponentProps) => {
-  const localToken = localStorage.getItem("token");
-  const sessionToken = sessionStorage.getItem("token");
-  const response = localToken || sessionToken ? children : <></>;
+  const authToken = useSessionStore.getState().token;
+  const response = authToken ? children : <></>;
   return response;
 };
 
 export const UnauthenticatedBlock = ({
   children,
 }: AuthenticatedComponentProps) => {
-  const localToken = localStorage.getItem("token");
-  const sessionToken = sessionStorage.getItem("token");
-  const response = localToken || sessionToken ? <></> : children;
+  const authToken = useSessionStore.getState().token;
+  const response = authToken ? <></> : children;
   return response;
 };

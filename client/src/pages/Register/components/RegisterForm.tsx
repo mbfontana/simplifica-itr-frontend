@@ -1,7 +1,7 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { FormTextField } from "../../../components/FormTextField";
 
-const emailIsUnique = async (email: string) => {
+const isEmailUnique = async (email: string) => {
   var response;
 
   var myHeaders = new Headers();
@@ -50,7 +50,7 @@ export const InputEmail = () => {
             /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
           message: "O endereço de e-mail parece ser inválido.",
         },
-        validate: { value: emailIsUnique },
+        validate: { value: isEmailUnique },
       }}
       render={({ field }) => (
         <FormTextField
@@ -164,10 +164,12 @@ export const InputCpf = () => {
       name="cpf"
       rules={{
         required: { value: true, message: "O CPF é obrigatório." },
+        maxLength: {value: 11, message: "Insira um CPF válido."},
+        minLength: {value: 11, message: "Insira um CPF válido."},
         pattern: {
           value:
             /([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/,
-          message: "O CPF parece ser inválido.",
+          message: "Insira um CPF válido.",
         },
       }}
       render={({ field }) => (

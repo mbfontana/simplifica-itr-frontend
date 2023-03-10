@@ -2,7 +2,7 @@ import SearchOutlined from "@mui/icons-material/SearchOutlined";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 type SearchBarProps = {
   placeholder?: string;
@@ -10,10 +10,13 @@ type SearchBarProps = {
 };
 
 export const SearchBar = ({ placeholder, onChange }: SearchBarProps) => {
-  const [value, setValue] = useState("");
-  const onChangeValue = (newValue: string) => {
-    setValue(newValue);
-  };
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    console.log(search);
+    onChange(search);
+  }, [onChange, search]);
+
   return (
     <Stack
       direction="row"
@@ -30,11 +33,11 @@ export const SearchBar = ({ placeholder, onChange }: SearchBarProps) => {
       <InputBase
         sx={{ ml: 0, flex: 1, fontSize: "0.975rem", fontColor: "#404040" }}
         fullWidth
-        placeholder={placeholder}
+        placeholder={placeholder ?? ""}
         onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-          onChangeValue(e.target.value)
+          setSearch(e.target.value)
         }
-        value={value}
+        value={search}
       />
     </Stack>
   );

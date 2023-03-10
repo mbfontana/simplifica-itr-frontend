@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Stack,
@@ -13,6 +12,9 @@ import { theme } from "../../../global/theme";
 import { useFormContext } from "react-hook-form";
 import * as Form from "./RegisterForm";
 import { RegisterFormInternalType } from "../Register";
+import { MainAPI } from "../../../api/AuthenticatedAxios";
+import { useSessionStore } from "../../../stores/SessionStore";
+import { RegisterUserResponse } from "../../../api/Register/types";
 
 export const RegisterFormLayout = () => {
   const mdBreakPoint = useMediaQuery("(min-width:712px)");
@@ -20,26 +22,26 @@ export const RegisterFormLayout = () => {
   const navigate = useNavigate();
   const { handleSubmit } = useFormContext();
 
-  const onSubmit = (e: RegisterFormInternalType) => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+  const tryRegisterUser = async (e: RegisterFormInternalType) => {
+    try {
+      const response = await MainAPI.post<RegisterUserResponse>("/user/register", {
+        name: `${e.firstName} ${e.lastName}`,
+        email: e.email,
+        cpf: e.cpf,
+        password: e.password,
+      });
+      const registeredUser = response.data;
+      useSessionStore.getState().setName(registeredUser.name);
+      useSessionStore.getState().setEmail(registeredUser.email);
+      useSessionStore.getState().setToken(registeredUser.token);
+      navigate("/login");
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
-    var raw = JSON.stringify({
-      name: `${e.firstName} ${e.lastName}`,
-      email: e.email,
-      cpf: e.cpf,
-      password: e.password,
-    });
-
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-    };
-
-    fetch("https://localhost:7072/api/user/register", requestOptions)
-      .then(() => navigate("/login"))
-      .catch((error) => console.log("error", error));
+  const onSubmitHandler = (values) => {
+    tryRegisterUser(values);
   };
 
   return (
@@ -73,7 +75,7 @@ export const RegisterFormLayout = () => {
           >
             <Box component="img" src="logo.svg" alt="Logo" width="100%" />
           </Button>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmitHandler)}>
             <Stack spacing={3}>
               <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                 <Form.InputEmail />
