@@ -5,6 +5,7 @@ import useScrolPosition from "../../hooks/useScrollPosition";
 import { useMediaQuery } from "@mui/material";
 import { IntroSection } from "./components/IntroSection";
 import { SecondSection } from "./components/SecondSection";
+import { ThirdSection } from "./components/ThirdSection";
 
 export const Home = () => {
   const scrollPosition = useScrolPosition();
@@ -48,8 +49,13 @@ export const Home = () => {
         <Box width="100%" padding="60px 0 0 0">
           <SecondSection />
         </Box>
-        <Box width="100%" padding="60px 0" sx={{ backgroundColor: "white" }}>
-          Section 3
+        <Box
+          maxWidth="1220px"
+          m={margin}
+          height="100%"
+          padding="60px 0"
+        >
+          <ThirdSection />
         </Box>
       </Box>
     </Box>

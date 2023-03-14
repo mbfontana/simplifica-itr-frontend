@@ -13,7 +13,6 @@ export const SecondSection = () => {
   return (
     <Stack
       padding={padding}
-      spacing={6}
       sx={{ backgroundColor: theme.palette.primary.main }}
     >
       <Typography
@@ -22,10 +21,18 @@ export const SecondSection = () => {
         color="#fff"
         fontSize="3rem"
         fontWeight={500}
+        margin="0 auto"
+        sx={{ maxWidth: "1220px" }}
       >
         Gerencie, Organize e Simplifique
       </Typography>
-      <Typography variant="body1" align="center" color="#fff">
+      <Typography
+        variant="body1"
+        align="center"
+        color="#fff"
+        margin="40px auto 0 auto"
+        sx={{ maxWidth: "1220px" }}
+      >
         A plataforma facilita a gestão de todo o sistema de clientes e
         propriedades. Com o Simplifica ITR é possível calcular de forma
         automática e personalizada o Imposto sobre a Propriedade Territorial
