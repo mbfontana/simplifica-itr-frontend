@@ -62,7 +62,7 @@ const footerNavIcons: FooterNavIconsType[] = [
   { icon: <Box>icon 4</Box>, url: "#" },
 ];
 
-export const HomeFooter = () => {
+export const Footer = () => {
   const mdBreakPoint = useMediaQuery("(min-width:1220px)");
 
   var margin;

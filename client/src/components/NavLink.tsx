@@ -1,5 +1,5 @@
 import { Typography, Link } from "@mui/material";
-import { theme } from "../../../global/theme";
+import { theme } from "../global/theme";
 
 type NavLinkProps = {
   url: string;

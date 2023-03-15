@@ -1,12 +1,12 @@
 import Box from "@mui/material/Box";
 import { theme } from "../../global/theme";
-import { NavBar } from "./components/NavBar";
+import { NavBar } from "../../components/NavBar";
 import useScrolPosition from "../../hooks/useScrollPosition";
 import { useMediaQuery } from "@mui/material";
 import { IntroSection } from "./components/IntroSection";
 import { SecondSection } from "./components/SecondSection";
 import { ThirdSection } from "./components/ThirdSection";
-import { HomeFooter } from "./components/HomeFooter";
+import { Footer } from "../../components/Footer";
 
 export const Home = () => {
   const scrollPosition = useScrolPosition();
@@ -54,7 +54,7 @@ export const Home = () => {
           <ThirdSection />
         </Box>
         <Box maxWidth="1220px" width="100%">
-          <HomeFooter />
+          <Footer />
         </Box>
       </Box>
     </Box>

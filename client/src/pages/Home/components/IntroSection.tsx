@@ -64,7 +64,7 @@ export const IntroSection = () => {
         <Grid item xs={smBreakPoint ? 8 : 12}>
           <Box
             component="img"
-            src="images/mockup_1.png"
+            src="images/home_mock_up.png"
             alt="Logo"
             width="100%"
           />

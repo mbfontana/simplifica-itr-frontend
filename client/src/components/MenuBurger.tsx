@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { TypeFormatFlags } from "typescript";
-import { theme } from "../../../global/theme";
-import { GreenButton } from "../../../components/GreenButton";
+import { theme } from "../global/theme";
+import { GreenButton } from "./GreenButton";
 import { NavLink } from "./NavLink";
 
 export const StyledBurger = styled.div`

@@ -1,6 +1,6 @@
 import { Grid, Stack, useMediaQuery } from "@mui/material";
 import { Box } from "@mui/material";
-import { GreenButton } from "../../../components/GreenButton";
+import { GreenButton } from "./GreenButton";
 import { NavLink } from "./NavLink";
 import { MenuBurger } from "./MenuBurger";
 import { useNavigate } from "react-router-dom";
