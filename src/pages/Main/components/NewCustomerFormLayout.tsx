@@ -9,11 +9,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import * as Form from "./NewClienteForm";
-import { emptyProperties } from "./NewCliente";
+import * as Form from "./NewCustomerForm";
+import { emptyProperties } from "./NewCustomer";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-export const NewClienteFormLayout = () => {
+export const NewCustomerFormLayout = () => {
   const { handleSubmit } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     name: "properties",

@@ -12,7 +12,7 @@ import { FormTextField } from "../../../components/FormTextField";
 import { theme } from "../../../global/theme";
 import AddIcon from "@mui/icons-material/Add";
 import { FormSelect } from "../../../components/FormSelect";
-import { emptyAreas } from "./NewCliente";
+import { emptyAreas } from "./NewCustomer";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 // This file contains all the components that are input fields of the New Cliente Forms

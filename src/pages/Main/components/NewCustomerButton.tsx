@@ -10,9 +10,9 @@ import AddIcon from "@mui/icons-material/Add";
 import { GreenButton } from "../../../components/GreenButton";
 import { useState, forwardRef } from "react";
 import { TransitionProps } from "@mui/material/transitions";
-import { NewCliente } from "./NewCliente";
+import { NewCustomer } from "./NewCustomer";
 
-export const NewClienteButton = () => {
+export const NewCustomerButton = () => {
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleOpenDialog = () => {
@@ -51,7 +51,7 @@ export const NewClienteButton = () => {
         TransitionComponent={Transition}
       >
         {/* Calls the component that controls the forms with the defaultValues and the FormProvider (root component) */}
-        <NewCliente />
+        <NewCustomer />
       </Dialog>
     </>
   );

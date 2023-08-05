@@ -1,5 +1,5 @@
 import { FormProvider, useForm } from "react-hook-form";
-import { NewClienteFormLayout } from "./NewClienteFormLayout";
+import { NewCustomerFormLayout } from "./NewCustomerFormLayout";
 
 type AreasObject = {
   size: string;
@@ -13,7 +13,7 @@ type PropertiesObject = {
   areas: AreasObject[];
 };
 
-type ClientFormInternalType = {
+type CustomerFormInternalType = {
   firstName: string;
   lastName: string;
   cpf: string;
@@ -32,8 +32,8 @@ export const emptyProperties: PropertiesObject = {
   areas: [emptyAreas],
 };
 
-export const NewCliente = () => {
-  const formHook = useForm<ClientFormInternalType>({
+export const NewCustomer = () => {
+  const formHook = useForm<CustomerFormInternalType>({
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -45,7 +45,7 @@ export const NewCliente = () => {
     // Provides the defaultValues to all children. In this case the children are the Controllers components of the form
     // NewClienteFormLayout bundles all the inputs together
     <FormProvider {...formHook}>
-      <NewClienteFormLayout />
+      <NewCustomerFormLayout />
     </FormProvider>
   );
 };
