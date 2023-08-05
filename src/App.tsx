@@ -4,7 +4,7 @@ import { Home } from "./pages/Home/Home";
 import { Main } from "./pages/Main/Main";
 import { CheckAuthentication } from "./components/CheckAuthentication";
 import { Cities } from "./pages/Cidades/Cities";
-import { Clientes } from "./pages/Clientes/Clientes";
+import { Customers } from "./pages/Clientes/Customers";
 import { Register } from "./pages/Register/Register";
 import { MainLayout } from "./pages/Main/components/MainLayout";
 
@@ -37,7 +37,7 @@ const App = () => {
       >
         <Route index element={<Main />} />
         <Route path="cities" element={<Cities />} />
-        <Route path="clientes" element={<Clientes />} />
+        <Route path="clientes" element={<Customers />} />
       </Route>
     </Routes>
   );

@@ -1,11 +1,11 @@
 export type GetAllCitiesResponse = {
   id: number;
   name: string;
-  state: string;
-  aptidaoBoa: number;
-  aptidaoRegular: number;
-  aptidaoRestrita: number;
-  pastagemPlantada: number;
+  province: string;
+  boa: number;
+  regular: number;
+  restrita: number;
+  plantada: number;
   silvicultura: number;
   preservacao: number;
   font: number;

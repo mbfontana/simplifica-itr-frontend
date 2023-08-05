@@ -1,5 +1,5 @@
 import { Cities } from "./pages/Cidades/Cities";
-import { Clientes } from "./pages/Clientes/Clientes";
+import { Customers } from "./pages/Clientes/Customers";
 
 type AppRoutes = {
   name: string;
@@ -11,7 +11,7 @@ export const AppRoutes: AppRoutes[] = [
   {
     name: "Clientes",
     path: "clientes",
-    component: <Clientes />,
+    component: <Customers />,
   },
   {
     name: "Cities",

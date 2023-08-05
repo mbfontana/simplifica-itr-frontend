@@ -24,7 +24,7 @@ export const LoginFormLayout = () => {
 
   const tryLoginUser = async (e: { email: string; password: string }) => {
     try {
-      const response = await MainAPI.post<LoginUserResponse>("/user/login", {
+      const response = await MainAPI.post<LoginUserResponse>("/auth/login", {
         email: e.email,
         password: e.password,
       });

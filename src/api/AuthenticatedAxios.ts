@@ -27,7 +27,7 @@ const createClient = (baseURL: string) => {
   return client;
 };
 
-export const MainAPI = createClient("https://localhost:7072/api"); // Use the AppConfig in the future
+export const MainAPI = createClient("http://localhost:3001"); // Use the AppConfig in the future
 export const HomeAPI = createClient("");
 
 const lookup = {
