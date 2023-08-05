@@ -6,17 +6,10 @@ import { ChangeEvent, useEffect, useState } from "react";
 
 type SearchBarProps = {
   placeholder?: string;
-  onChange: (newValue: string) => void;
+  onSearch: (newValue: string) => void;
 };
 
-export const SearchBar = ({ placeholder, onChange }: SearchBarProps) => {
-  const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    console.log(search);
-    onChange(search);
-  }, [onChange, search]);
-
+export const SearchBar = ({ placeholder, onSearch }: SearchBarProps) => {
   return (
     <Stack
       direction="row"
@@ -34,10 +27,7 @@ export const SearchBar = ({ placeholder, onChange }: SearchBarProps) => {
         sx={{ ml: 0, flex: 1, fontSize: "0.975rem", fontColor: "#404040" }}
         fullWidth
         placeholder={placeholder ?? ""}
-        onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-          setSearch(e.target.value)
-        }
-        value={search}
+        onChange={(e) => onSearch(e.target.value)}
       />
     </Stack>
   );

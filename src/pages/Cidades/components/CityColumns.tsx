@@ -1,28 +1,28 @@
 import { GridColDef } from "@mui/x-data-grid";
 
 export const CityColumns: GridColDef[] = [
-    { field: "name", headerName: "Nome", type: "string", minWidth: 200 },
-    { field: "state", headerName: "Estado", flex: 1 },
+    { field: "name", headerName: "Nome", type: "string", minWidth: 250 },
+    { field: "province", headerName: "Estado", flex: 1 },
     {
-      field: "aptidaoBoa",
+      field: "boa",
       headerName: "Aptidão Boa",
       flex: 2,
       renderCell: (data) => `R$ ${data.value}`,
     },
     {
-      field: "aptidaoRegular",
+      field: "regular",
       headerName: "Aptidão Regular",
       flex: 2,
       renderCell: (data) => `R$ ${data.value}`,
     },
     {
-      field: "aptidaoRestrita",
+      field: "restrita",
       headerName: "Aptidão Restrita",
       flex: 2,
       renderCell: (data) => `R$ ${data.value}`,
     },
     {
-      field: "pastagemPlantada",
+      field: "plantada",
       headerName: "Pastagem Plantada",
       flex: 2,
       renderCell: (data) => `R$ ${data.value}`,

@@ -1,22 +1,28 @@
-import { useContext, useEffect, useState } from "react";
-import { useStore } from "zustand";
 import { Stack, Box } from "@mui/material";
-import { DataGrid, GridColDef, GridRowModel } from "@mui/x-data-grid";
+import { DataGrid, GridRowModel } from "@mui/x-data-grid";
 import { useQuery } from "react-query";
 import { getAllCities } from "../../api/Cities";
 import { GetAllCitiesResponse } from "../../api/Cities/types";
 import { SearchBar } from "../../components/SearchBar";
-import { useCityFilterStore } from "../../stores/CitiesTableContext";
 import { CityColumns } from "./components/CityColumns";
-import { useSessionStore } from "../../stores/SessionStore";
+import { useState } from "react";
 
 export const Cities = () => {
-  //const filterValue = useStore(useCityFilterStore, (e) => e.filterValue);
   const rowsQuery = useQuery(["cityRows"], getAllCities);
   const rows: GridRowModel<GetAllCitiesResponse[]> = rowsQuery.data?.data;
-  const filterValue = "";
 
-  if (filterValue !== "") rows.map((e) => e.name.includes(filterValue));
+  const [filteredData, setFilteredData] = useState(rows ? rows : []);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+    const filteredResults = rows.filter(
+      (item) =>
+        item.name.toLowerCase().includes(value.toLowerCase()) ||
+        item.province.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredData(filteredResults);
+  };
 
   if (rows) {
     return (
@@ -24,19 +30,18 @@ export const Cities = () => {
         <Stack sx={{ margin: 2 }} spacing={2}>
           <SearchBar
             placeholder="Pesquisar por cidade"
-            onChange={(searchValue) =>
-              rows.map((row) => {
-                return row.name.includes(searchValue);
-              })
-            }
+            onSearch={handleSearch}
           />
           <Box width="100%" height="calc(100vh - 100px)">
-            <DataGrid rows={rows} columns={CityColumns} />
+            <DataGrid
+              rows={filteredData.length > 0 ? filteredData : rows}
+              columns={CityColumns}
+            />
           </Box>
         </Stack>
       </Stack>
     );
   }
 
-  <h1>Loading</h1>;
+  return <h1>Loading</h1>;
 };
