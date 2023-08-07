@@ -2,36 +2,22 @@ import { Stack, Box, Button, Dialog } from "@mui/material";
 import { DataGrid, GridRowModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { SearchBar } from "../../components/SearchBar";
-import { useQuery } from "react-query";
-import { getAllCustomers } from "../../api/Customers";
+import { useQuery, useQueryClient } from "react-query";
+import { deleteCustomer, getAllCustomers } from "../../api/Customers";
 import { GetAllCustomersResponse } from "../../api/Customers/types";
 import { CustomersColumns } from "./components/CustomersColumns";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { MainAPI } from "../../api/AuthenticatedAxios";
-import { NewCustomer } from "../Main/components/NewCustomer";
-import { Transition } from "../../components/Transition";
+import { CreateCustomerBtn } from "./components/CreateCustomerBtn";
+import { DeleteCustomerBtn } from "./components/DeleteCustomerBtn";
+import { EditCustomerBtn } from "./components/EditCustomerBtn";
 
 export const Customers = () => {
   const rowsQuery = useQuery(["customerRows"], getAllCustomers);
   const rows: GridRowModel<GetAllCustomersResponse[]> = rowsQuery.data?.data;
 
-  useEffect(() => {}, [rows]);
-
   const [selectionModel, setSelectionModel] = useState([]);
   const [selectedData, setSelectedData] = useState<GetAllCustomersResponse>();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState(rows ? rows : []);
-  const [openDialog, setOpenDialog] = useState(false);
-
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
 
   const handleSelectionChange = (newSelection) => {
     const newSelectionModel = newSelection.slice(-1);
@@ -39,7 +25,7 @@ export const Customers = () => {
 
     const selectedResult = rows.find((row) => row.id === newSelectionModel[0]);
     setSelectedData(selectedResult);
-    console.log(selectedData);
+    console.log(selectedResult);
   };
 
   const handleSearch = (value) => {
@@ -56,21 +42,6 @@ export const Customers = () => {
     setFilteredData(filteredResults);
   };
 
-  const handleCreate = async () => {};
-
-  const handleEdit = async () => {};
-
-  const handleDelete = async () => {
-    try {
-      const response = await MainAPI.delete("/customers", {
-        data: { cpf: selectedData.cpf },
-      });
-      console.log(response);
-    } catch (error: any) {
-      console.log("error", error);
-    }
-  };
-
   if (rows) {
     return (
       <>
@@ -81,34 +52,12 @@ export const Customers = () => {
                 placeholder="Pesquisar por cliente"
                 onSearch={handleSearch}
               />
-              <Button
-                variant="contained"
-                disabled={selectionModel.length === 0}
-                sx={{
-                  backgroundColor: "blue",
-                  ":hover": {
-                    backgroundColor: "#002FA1",
-                  },
-                }}
-              >
-                <EditIcon />
-              </Button>
-              <Button
-                variant="contained"
-                onClick={handleDelete}
-                disabled={selectionModel.length === 0}
-                sx={{
-                  backgroundColor: "red",
-                  ":hover": {
-                    backgroundColor: "#B50000",
-                  },
-                }}
-              >
-                <DeleteIcon />
-              </Button>
-              <Button variant="contained" onClick={handleOpenDialog}>
-                <AddIcon />
-              </Button>
+              <EditCustomerBtn selectionModel={selectionModel} />
+              <DeleteCustomerBtn
+                selectedData={selectedData}
+                selectionModel={selectionModel}
+              />
+              <CreateCustomerBtn />
             </Stack>
             <Box width="100%" height="calc(100vh - 100px)">
               <DataGrid
@@ -121,14 +70,6 @@ export const Customers = () => {
             </Box>
           </Stack>
         </Stack>
-        <Dialog
-          open={openDialog}
-          onClose={handleCloseDialog}
-          TransitionComponent={Transition}
-        >
-          {/* Calls the component that controls the forms with the defaultValues and the FormProvider (root component) */}
-          <NewCustomer />
-        </Dialog>
       </>
     );
   }
