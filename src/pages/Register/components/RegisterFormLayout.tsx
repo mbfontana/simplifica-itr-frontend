@@ -31,7 +31,6 @@ export const RegisterFormLayout = () => {
         password: e.password,
       });
       const registeredUser = response.data;
-      useSessionStore.getState().setName(registeredUser.name);
       useSessionStore.getState().setEmail(registeredUser.email);
       useSessionStore.getState().setToken(registeredUser.token);
       navigate("/login");

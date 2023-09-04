@@ -29,7 +29,6 @@ export const LoginFormLayout = () => {
         password: e.password,
       });
       const loggedUser = response.data;
-      useSessionStore.getState().setName(loggedUser.name);
       useSessionStore.getState().setEmail(loggedUser.email);
       useSessionStore.getState().setToken(loggedUser.token);
       navigate("/main");
