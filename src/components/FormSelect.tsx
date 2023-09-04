@@ -30,15 +30,14 @@ export const FormSelect = ({ field, error, label, data }: FormSelectProps) => {
 
   return (
     <>
-      <InputLabel id="standard-label">{label}</InputLabel>
+      <InputLabel id="demo-simple-select-label">{label}</InputLabel>
       <Select
-        labelId="standard-label"
-        id="label"
+        labelId="demo-simple-select-label"
+        id="demo-simple-select-label"
         value={value}
         onChange={handleChange}
         label={label}
         error={error !== undefined}
-        variant="standard"
         {...field}
       >
         {data.map((item) => (

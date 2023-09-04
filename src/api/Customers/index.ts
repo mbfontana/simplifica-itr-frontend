@@ -17,7 +17,8 @@ export const registerCustomer = (
   phone,
   birth,
   email,
-  cpf
+  cpf,
+  properties
 ) => {
   return MainAPI.post<CreateCustomer>("/customers", {
     firstName: firstName,
@@ -26,6 +27,7 @@ export const registerCustomer = (
     birth: birth,
     email: email,
     cpf: cpf,
+    properties: properties,
   });
 };
 

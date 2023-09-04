@@ -1,9 +1,11 @@
 import {
+  Autocomplete,
   Button,
   IconButton,
   List,
   ListItem,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
@@ -14,8 +16,12 @@ import AddIcon from "@mui/icons-material/Add";
 import { FormSelect } from "../../../components/FormSelect";
 import { emptyAreas } from "./NewCustomer";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { useQuery } from "react-query";
+import { getAllCities } from "../../../api/Cities";
+import { GetAllCitiesResponse } from "../../../api/Cities/types";
+import { useEffect, useState } from "react";
 
-// This file contains all the components that are input fields of the New Cliente Forms
+// This file contains all the components that are input fields of the New Customer Forms
 // FormTextField is an example of a generic component used to build all kind of forms
 
 export const InputFirstName = () => {
@@ -74,7 +80,51 @@ export const InputLastName = () => {
   );
 };
 
-export const InputCpf = () => {
+export const InputPhone = () => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
+  const phoneRegex = /^(\(\d{2}\)\s?)?9\d{4}-\d{4}$/;
+
+  const formatPhone = (value) => {
+    return value
+      .replace(/\D/g, "") // Remove any non-digit character
+      .replace(/^(\d{2})(\d)/g, "($1) $2") // Area code formatting
+      .replace(/(\d{1})(\d{4})(\d{4})/, "$1$2-$3") // 9XXXX-XXXX format
+      .substr(0, 15); // Limit to max phone length
+  };
+
+  return (
+    <Controller
+      control={control}
+      name="phone"
+      rules={{
+        pattern: {
+          value: phoneRegex,
+          message: "Telefone inválido",
+        },
+      }}
+      render={({ field }) => (
+        <FormTextField
+          field={{
+            ...field,
+            onChange: (e) => {
+              const formattedValue = formatPhone(e.target.value);
+              e.target.value = formattedValue; // Override the event's value
+              field.onChange(e); // Call original onChange provided by RHF's Controller
+            },
+          }}
+          error={errors.phone}
+          label="Telefone"
+        />
+      )}
+    />
+  );
+};
+
+export const InputBirth = () => {
   const {
     control,
     formState: { errors },
@@ -83,12 +133,120 @@ export const InputCpf = () => {
   return (
     <Controller
       control={control}
+      name="birth"
+      rules={{
+        required: {
+          value: true,
+          message: "A data de nascimento é obrigatória",
+        },
+      }}
+      render={({ field }) => (
+        <FormTextField
+          field={{ ...field }}
+          error={errors.birth}
+          label="Data de nascimento"
+          type="date"
+        />
+      )}
+    />
+  );
+};
+
+export const InputEmail = () => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
+  return (
+    <Controller
+      control={control}
+      name="email"
+      rules={{
+        required: { value: true, message: "O e-mail é obrigatório" },
+        pattern: {
+          value: emailRegex,
+          message: "E-mail inválido",
+        },
+      }}
+      render={({ field }) => (
+        <FormTextField
+          field={{ ...field }}
+          error={errors.email}
+          label="E-mail"
+        />
+      )}
+    />
+  );
+};
+
+export const InputCpf = () => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
+  const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+
+  const isValidCPF = (num) => {
+    let sum, rest;
+    sum = 0;
+    if (num === "00000000000") return false;
+
+    for (let i = 1; i <= 9; i++)
+      sum = sum + parseInt(num.substring(i - 1, i)) * (11 - i);
+    rest = (sum * 10) % 11;
+
+    if (rest === 10 || rest === 11) rest = 0;
+    if (rest !== parseInt(num.substring(9, 10))) return false;
+
+    sum = 0;
+    for (let i = 1; i <= 10; i++)
+      sum = sum + parseInt(num.substring(i - 1, i)) * (12 - i);
+    rest = (sum * 10) % 11;
+
+    if (rest === 10 || rest === 11) rest = 0;
+    if (rest !== parseInt(num.substring(10, 11))) return false;
+
+    return true;
+  };
+
+  const formatCPF = (value) => {
+    return value
+      .replace(/\D/g, "") // remove any non-digit character
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d{2})$/, "$1-$2")
+      .substr(0, 14); // limit to max CPF length
+  };
+
+  return (
+    <Controller
+      control={control}
       name="cpf"
       rules={{
         required: { value: true, message: "O CPF é obrigatório" },
+        validate: {
+          matchesFormat: (value) => cpfRegex.test(value) || "CPF inválido",
+          isValidCPF: (value) =>
+            isValidCPF(value.replace(/[.-]/g, "")) || "CPF inválido",
+        },
       }}
       render={({ field }) => (
-        <FormTextField field={{ ...field }} error={errors.cpf} label="CPF" />
+        <FormTextField
+          field={{
+            ...field,
+            onChange: (e) => {
+              const formattedValue = formatCPF(e.target.value);
+              e.target.value = formattedValue; // Override the event's value
+              field.onChange(e); // Call original onChange provided by RHF's Controller
+            },
+          }}
+          error={errors.cpf}
+          label="CPF"
+        />
       )}
     />
   );
@@ -96,6 +254,7 @@ export const InputCpf = () => {
 
 type InputPropertiesProps = {
   index: number;
+  cities?: GetAllCitiesResponse[];
 };
 
 export const InputPropertieName = ({ index }: InputPropertiesProps) => {
@@ -108,8 +267,18 @@ export const InputPropertieName = ({ index }: InputPropertiesProps) => {
     <Controller
       control={control}
       name={`properties.${index}.name`}
+      rules={{
+        required: {
+          value: true,
+          message: "O nome da propriedade é obrigatório",
+        },
+      }}
       render={({ field }) => (
-        <FormTextField field={{ ...field }} label="Nome da propriedade" />
+        <FormTextField
+          field={{ ...field }}
+          label="Nome da propriedade"
+          error={errors?.properties && errors.properties[index]?.name}
+        />
       )}
     />
   );
@@ -121,25 +290,120 @@ export const InputPropertieNirf = ({ index }: InputPropertiesProps) => {
     formState: { errors },
   } = useFormContext();
 
+  const nirfRegex = /^\d{9}$/;
+
   return (
     <Controller
       control={control}
       name={`properties.${index}.nirf`}
+      rules={{
+        required: {
+          value: true,
+          message: "O NIRF da propriedade é obrigatório",
+        },
+        pattern: {
+          value: nirfRegex,
+          message: "NIRF inválido",
+        },
+      }}
       render={({ field }) => (
-        <FormTextField field={{ ...field }} label="NIRF" />
+        <FormTextField
+          field={{ ...field }}
+          label="NIRF"
+          error={errors?.properties && errors.properties[index]?.nirf}
+        />
       )}
     />
   );
 };
 
-export const PropertiesForm = ({ propertieIndex }) => {
+export const InputPropertieCity = ({ index, cities }: InputPropertiesProps) => {
+  const {
+    control,
+    formState: { errors },
+    setValue,
+  } = useFormContext();
+
+  const [cityOptions, setCityOptions] = useState([]);
+
+  const provinces = cities
+    .map((city) => city.province)
+    .filter((province, idx, self) => self.indexOf(province) === idx);
+
+  return (
+    <>
+      <Controller
+        control={control}
+        name={`properties.${index}.province`}
+        rules={{
+          required: {
+            value: true,
+            message: "Selecione o estado",
+          },
+        }}
+        render={({ field }) => (
+          <Autocomplete
+            id="Estado"
+            options={provinces}
+            value={field.value}
+            onChange={(e, newValue) => {
+              field.onChange(newValue);
+              const filteredCities = cities.filter(
+                (city) => city.province === newValue
+              );
+              setCityOptions(filteredCities.map((city) => city.name));
+              setValue(`properties.${index}.city`, "");
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Estado"
+                error={!!errors.properties?.[index]?.province}
+                helperText={errors.properties?.[index]?.province?.message}
+              />
+            )}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name={`properties.${index}.city`}
+        rules={{
+          required: {
+            value: true,
+            message: "Selecione a cidade",
+          },
+        }}
+        render={({ field }) => (
+          <Autocomplete
+            id="Cidade"
+            options={cityOptions}
+            value={field.value}
+            onChange={(e, newValue) => field.onChange(newValue)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Cidade"
+                error={!!errors.properties?.[index]?.city}
+                helperText={errors.properties?.[index]?.city?.message}
+              />
+            )}
+          />
+        )}
+      />
+    </>
+  );
+};
+
+export const PropertiesForm = ({ propertieIndex, cities }) => {
   const { fields, append, remove } = useFieldArray({
     name: "areas",
   });
   return (
-    <Stack spacing={2} sx={{ width: "100%" }}>
+    <Stack spacing={2} sx={{ width: "100%", marginBottom: "32px" }}>
       <InputPropertieName index={propertieIndex} />
       <InputPropertieNirf index={propertieIndex} />
+      <InputPropertieCity index={propertieIndex} cities={cities} />
 
       <Stack spacing={0}>
         <Stack spacing={2}>
@@ -247,7 +511,7 @@ export const InputAreaSize = ({ propertieIndex, index }: InputAreaProps) => {
   return (
     <Controller
       control={control}
-      name={`properties.${propertieIndex}.areas.${index}.size`}
+      name={`properties.${propertieIndex}.areas.${index}.metreage`}
       render={({ field }) => (
         <FormTextField field={{ ...field }} label="Área em m²" />
       )}
@@ -269,31 +533,21 @@ export const InputAreaCondition = ({
       control={control}
       name={`properties.${propertieIndex}.areas.${index}.condition`}
       render={({ field }) => (
-        <FormTextField field={{ ...field }} label="Condição" />
-      )}
-    />
-  );
-};
-
-export const InputAreaCity = ({ propertieIndex, index }: InputAreaProps) => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext();
-
-  return (
-    <Controller
-      control={control}
-      name={`properties.${propertieIndex}.areas.${index}.city`}
-      rules={{
-        required: { value: true, message: "Selecione uma cidade" },
-      }}
-      render={({ field }) => (
         <FormSelect
           field={{ ...field }}
-          error={errors.city}
-          label="Cidade"
-          data={["Cândido Mota", "Assis", "Ourinhos"]}
+          data={[
+            "Boa",
+            "Regular",
+            "Restrita",
+            "Plantada",
+            "Silvicultura",
+            "Preservacao",
+          ]}
+          label="Condição"
+          // error={
+          //   errors.properties[index]?.areas &&
+          //   errors.properties[index]?.areas[index].condition
+          // }
         />
       )}
     />
@@ -305,7 +559,6 @@ export const AreaForm = ({ propertieIndex, index }: InputAreaProps) => {
     <Stack spacing={2}>
       <InputAreaSize propertieIndex={propertieIndex} index={index} />
       <InputAreaCondition propertieIndex={propertieIndex} index={index} />
-      <InputAreaCity propertieIndex={propertieIndex} index={index} />
     </Stack>
   );
 };

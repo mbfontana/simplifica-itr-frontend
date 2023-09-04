@@ -2,33 +2,38 @@ import { FormProvider, useForm } from "react-hook-form";
 import { NewCustomerFormLayout } from "./NewCustomerFormLayout";
 
 type AreasObject = {
-  size: string;
+  metreage: number;
   condition: string;
-  city: string;
 };
 
 type PropertiesObject = {
   name: string;
   nirf: string;
+  province: string;
+  city: string;
   areas: AreasObject[];
 };
 
 type CustomerFormInternalType = {
   firstName: string;
   lastName: string;
+  phone: string;
+  birth: string;
+  email: string;
   cpf: string;
   properties: PropertiesObject[];
 };
 
 export const emptyAreas: AreasObject = {
-  size: "",
+  metreage: 0,
   condition: "",
-  city: "",
 };
 
 export const emptyProperties: PropertiesObject = {
   name: "",
   nirf: "",
+  province: "",
+  city: "",
   areas: [emptyAreas],
 };
 
@@ -37,6 +42,9 @@ export const NewCustomer = () => {
     defaultValues: {
       firstName: "",
       lastName: "",
+      phone: "",
+      birth: "",
+      email: "",
       cpf: "",
     },
   });

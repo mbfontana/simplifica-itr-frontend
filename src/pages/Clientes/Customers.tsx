@@ -1,4 +1,4 @@
-import { Stack, Box, Button, Dialog } from "@mui/material";
+import { Stack, Box, Button, Dialog, CircularProgress } from "@mui/material";
 import { DataGrid, GridRowModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { SearchBar } from "../../components/SearchBar";
@@ -9,6 +9,7 @@ import { CustomersColumns } from "./components/CustomersColumns";
 import { CreateCustomerBtn } from "./components/CreateCustomerBtn";
 import { DeleteCustomerBtn } from "./components/DeleteCustomerBtn";
 import { EditCustomerBtn } from "./components/EditCustomerBtn";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 export const Customers = () => {
   const rowsQuery = useQuery(["customerRows"], getAllCustomers);
@@ -25,7 +26,6 @@ export const Customers = () => {
 
     const selectedResult = rows.find((row) => row.id === newSelectionModel[0]);
     setSelectedData(selectedResult);
-    console.log(selectedResult);
   };
 
   const handleSearch = (value) => {
@@ -52,7 +52,10 @@ export const Customers = () => {
                 placeholder="Pesquisar por cliente"
                 onSearch={handleSearch}
               />
-              <EditCustomerBtn selectionModel={selectionModel} />
+              <EditCustomerBtn
+                selectedData={selectedData}
+                selectionModel={selectionModel}
+              />
               <DeleteCustomerBtn
                 selectedData={selectedData}
                 selectionModel={selectionModel}
@@ -74,5 +77,5 @@ export const Customers = () => {
     );
   }
 
-  return <h1>Loading</h1>;
+  return <LoadingSpinner />;
 };
