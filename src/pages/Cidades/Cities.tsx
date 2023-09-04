@@ -6,6 +6,7 @@ import { GetAllCitiesResponse } from "../../api/Cities/types";
 import { SearchBar } from "../../components/SearchBar";
 import { CityColumns } from "./components/CityColumns";
 import { useState } from "react";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 export const Cities = () => {
   const rowsQuery = useQuery(["cityRows"], getAllCities);
@@ -43,5 +44,5 @@ export const Cities = () => {
     );
   }
 
-  return <h1>Loading</h1>;
+  return <LoadingSpinner />;
 };
