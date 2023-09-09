@@ -37,14 +37,12 @@ export const EditCustomerFormLayout = ({ customerDetailed }) => {
     const { firstName, lastName, phone, birth, email, cpf, properties } =
       formData;
 
-    console.log(formData);
-
     updateCustomer(firstName, lastName, phone, birth, email, cpf, properties)
       .then(() => {
         queryClient.invalidateQueries("customerRows");
         setToastEvent("success");
         setToastIsOpen(true);
-        setToastMessage("Cliente cadastrado.");
+        setToastMessage("Cliente atualizado");
         setTimeout(() => {
           setToastIsOpen(false);
         }, 1000 * 6);
@@ -52,7 +50,7 @@ export const EditCustomerFormLayout = ({ customerDetailed }) => {
       .catch((err) => {
         setToastEvent("error");
         setToastIsOpen(true);
-        setToastMessage("Falha ao atualizar cliente.");
+        setToastMessage("Falha ao atualizar cliente");
         setTimeout(() => {
           setToastIsOpen(false);
         }, 1000 * 6);
