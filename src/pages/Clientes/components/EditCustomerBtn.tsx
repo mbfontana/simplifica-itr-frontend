@@ -1,39 +1,43 @@
-import { Button } from "@mui/material";
+import { Button, Dialog } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { useQuery } from "react-query";
-import { getCustomerById } from "../../../api/Customers";
 import { useState } from "react";
-import { GetCustomerResponse } from "../../../api/Customers/types";
+import { Transition } from "../../../components/Transition";
+import { EditCustomer } from "./EditCustomer";
 
-export const EditCustomerBtn = ({ selectionModel }) => {
-  const [customer, setCustomer] = useState<GetCustomerResponse>();
+export const EditCustomerBtn = ({ selectionModel, selectedData }) => {
+  const [openDialog, setOpenDialog] = useState(false);
 
-  useQuery(["getCustomerById", selectionModel], () =>
-    getCustomerById(selectionModel)
-  );
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
 
-  const handleEdit = async () => {
-    const editCustomer = await getCustomerById(selectionModel);
-    if (editCustomer.status.toString() === "200") {
-      setCustomer(editCustomer.data);
-    } else {
-      setCustomer(null);
-    }
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
 
   return (
-    <Button
-      variant="contained"
-      onClick={handleEdit}
-      disabled={selectionModel.length === 0}
-      sx={{
-        backgroundColor: "blue",
-        ":hover": {
-          backgroundColor: "#002FA1",
-        },
-      }}
-    >
-      <EditIcon />
-    </Button>
+    <>
+      <Button
+        variant="contained"
+        disabled={selectionModel.length === 0}
+        onClick={handleOpenDialog}
+        sx={{
+          backgroundColor: "blue",
+          ":hover": {
+            backgroundColor: "#002FA1",
+          },
+        }}
+      >
+        <EditIcon />
+      </Button>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        TransitionComponent={Transition}
+      >
+        {/* Calls the component that controls the forms with the defaultValues and the FormProvider (root component) */}
+        <EditCustomer customerId={Number(selectionModel)} />
+      </Dialog>
+    </>
   );
 };
