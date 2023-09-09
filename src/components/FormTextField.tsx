@@ -11,6 +11,7 @@ type FormTextFieldProps = {
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
   label: string;
   type?: string;
+  disabled?: boolean
 };
 
 export const FormTextField = ({
@@ -18,6 +19,7 @@ export const FormTextField = ({
   error,
   label,
   type,
+  disabled,
 }: FormTextFieldProps) => {
   return (
     <TextField
@@ -26,6 +28,7 @@ export const FormTextField = ({
       type={type ? type : "text"}
       error={error !== undefined}
       helperText={error?.message.toString()}
+      disabled={disabled}
       {...field}
     />
   );

@@ -36,7 +36,7 @@ export const NewCustomerFormLayout = () => {
   const onSubmit = (formData) => {
     const { firstName, lastName, phone, birth, email, cpf, properties } =
       formData;
-   
+
     registerCustomer(firstName, lastName, phone, birth, email, cpf, properties)
       .then(() => {
         queryClient.invalidateQueries("customerRows");

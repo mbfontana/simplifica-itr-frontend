@@ -1,5 +1,6 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { NewCustomerFormLayout } from "./NewCustomerFormLayout";
+import { GetCustomerResponse } from "../../../api/Customers/types";
 
 type AreasObject = {
   metreage: number;
@@ -12,16 +13,6 @@ type PropertiesObject = {
   province: string;
   city: string;
   areas: AreasObject[];
-};
-
-type CustomerFormInternalType = {
-  firstName: string;
-  lastName: string;
-  phone: string;
-  birth: string;
-  email: string;
-  cpf: string;
-  properties: PropertiesObject[];
 };
 
 export const emptyAreas: AreasObject = {
@@ -38,7 +29,7 @@ export const emptyProperties: PropertiesObject = {
 };
 
 export const NewCustomer = () => {
-  const formHook = useForm<CustomerFormInternalType>({
+  const formHook = useForm<GetCustomerResponse>({
     defaultValues: {
       firstName: "",
       lastName: "",

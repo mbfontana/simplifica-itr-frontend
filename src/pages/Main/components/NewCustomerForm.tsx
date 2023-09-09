@@ -1,6 +1,5 @@
 import {
   Autocomplete,
-  Button,
   IconButton,
   List,
   ListItem,
@@ -9,20 +8,20 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
-import RemoveIcon from "@mui/icons-material/Remove";
 import { FormTextField } from "../../../components/FormTextField";
-import { theme } from "../../../global/theme";
 import AddIcon from "@mui/icons-material/Add";
 import { FormSelect } from "../../../components/FormSelect";
 import { emptyAreas } from "./NewCustomer";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useQuery } from "react-query";
-import { getAllCities } from "../../../api/Cities";
 import { GetAllCitiesResponse } from "../../../api/Cities/types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // This file contains all the components that are input fields of the New Customer Forms
 // FormTextField is an example of a generic component used to build all kind of forms
+
+type InputCpfProps = {
+  disabled?: boolean;
+};
 
 export const InputFirstName = () => {
   const {
@@ -182,7 +181,7 @@ export const InputEmail = () => {
   );
 };
 
-export const InputCpf = () => {
+export const InputCpf = ({ disabled }: InputCpfProps) => {
   const {
     control,
     formState: { errors },
@@ -245,6 +244,7 @@ export const InputCpf = () => {
             },
           }}
           error={errors.cpf}
+          disabled={disabled}
           label="CPF"
         />
       )}
@@ -334,7 +334,7 @@ export const InputPropertieCity = ({ index, cities }: InputPropertiesProps) => {
     <>
       <Controller
         control={control}
-        name={`properties.${index}.province`}
+        name={`properties.${index}.city.province`}
         rules={{
           required: {
             value: true,
@@ -352,7 +352,7 @@ export const InputPropertieCity = ({ index, cities }: InputPropertiesProps) => {
                 (city) => city.province === newValue
               );
               setCityOptions(filteredCities.map((city) => city.name));
-              setValue(`properties.${index}.city`, "");
+              setValue(`properties.${index}.city.name`, "");
             }}
             renderInput={(params) => (
               <TextField
@@ -367,7 +367,7 @@ export const InputPropertieCity = ({ index, cities }: InputPropertiesProps) => {
       />
       <Controller
         control={control}
-        name={`properties.${index}.city`}
+        name={`properties.${index}.city.name`}
         rules={{
           required: {
             value: true,
@@ -397,7 +397,7 @@ export const InputPropertieCity = ({ index, cities }: InputPropertiesProps) => {
 
 export const PropertiesForm = ({ propertieIndex, cities }) => {
   const { fields, append, remove } = useFieldArray({
-    name: "areas",
+    name: `properties.${propertieIndex}.areas`,
   });
   return (
     <Stack spacing={2} sx={{ width: "100%", marginBottom: "32px" }}>
@@ -449,6 +449,7 @@ export const PropertiesForm = ({ propertieIndex, cities }) => {
                     justifyContent="flex-start"
                     width="100%"
                     spacing={4}
+                    mb={5}
                   >
                     <Stack
                       direction="column"
@@ -531,7 +532,7 @@ export const InputAreaCondition = ({
   return (
     <Controller
       control={control}
-      name={`properties.${propertieIndex}.areas.${index}.condition`}
+      name={`properties.${propertieIndex}.areas.${index}.condition.type`}
       render={({ field }) => (
         <FormSelect
           field={{ ...field }}

@@ -33,7 +33,7 @@ export type GetCustomerResponse = {
   cpf: string;
   phone: string;
   birth: string;
-  properties: PropertyObject[];
+  properties?: PropertyObject[];
 };
 
 export type GetAllCustomersResponse = {

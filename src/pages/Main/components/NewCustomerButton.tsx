@@ -11,6 +11,7 @@ import { GreenButton } from "../../../components/GreenButton";
 import { useState, forwardRef } from "react";
 import { TransitionProps } from "@mui/material/transitions";
 import { NewCustomer } from "./NewCustomer";
+import { Transition } from "../../../components/Transition";
 
 export const NewCustomerButton = () => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -41,7 +42,7 @@ export const NewCustomerButton = () => {
         >
           <AddIcon sx={{ color: "#fff" }} />
           <Typography color="white" variant="body2">
-            Cadastrar cliente
+            Gerar declaracao
           </Typography>
         </Stack>
       </GreenButton>
@@ -56,12 +57,3 @@ export const NewCustomerButton = () => {
     </>
   );
 };
-
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & {
-    children: React.ReactElement<any, any>;
-  },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
