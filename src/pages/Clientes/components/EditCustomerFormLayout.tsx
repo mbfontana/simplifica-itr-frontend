@@ -12,12 +12,11 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import * as Form from "../../Main/components/NewCustomerForm";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { emptyProperties } from "./EditCustomer";
-import { useQuery, useQueryClient } from "react-query";
-import { getAllCities } from "../../../api/Cities";
-import { GetAllCitiesResponse } from "../../../api/Cities/types";
+import { useQueryClient } from "react-query";
 import { updateCustomer } from "../../../api/Customers";
 import { useState } from "react";
 import { Toast } from "../../../components/Toast";
+import { useCitiesStore } from "../../../stores/CitiesStore";
 
 export const EditCustomerFormLayout = ({ customerDetailed }) => {
   const [toastIsOpen, setToastIsOpen] = useState(false);
@@ -30,8 +29,7 @@ export const EditCustomerFormLayout = ({ customerDetailed }) => {
     name: "properties",
   });
 
-  const citiesQuery = useQuery(["cityRows"], getAllCities);
-  const cities: GetAllCitiesResponse[] = citiesQuery.data?.data;
+  const cities = useCitiesStore.getState().cities;
 
   const onSubmit = (formData) => {
     const { firstName, lastName, phone, birth, email, cpf, properties } =

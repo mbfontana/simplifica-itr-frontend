@@ -2,7 +2,11 @@ import { FormProvider, useForm } from "react-hook-form";
 import { EditCustomerFormLayout } from "./EditCustomerFormLayout";
 import { useQuery } from "react-query";
 import { getCustomerById } from "../../../api/Customers";
-import { AreaObject, GetCustomerResponse, PropertyObject } from "../../../api/Customers/types";
+import {
+  AreaObject,
+  GetCustomerResponse,
+  PropertyObject,
+} from "../../../api/Customers/types";
 import { useEffect } from "react";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
 
@@ -24,8 +28,11 @@ export const emptyAreas: AreaObject = {
   metreage: 0,
   condition: {
     id: 0,
-    type: "",
     value: 0,
+    type: {
+      id: 0,
+      description: "",
+    },
   },
 };
 
@@ -69,7 +76,7 @@ export const EditCustomer = ({ customerId }) => {
         <p>Error loading customer data</p>
       ) : (
         <FormProvider {...formHook}>
-          <EditCustomerFormLayout customerDetailed={customerDetailed}/>
+          <EditCustomerFormLayout customerDetailed={customerDetailed} />
         </FormProvider>
       )}
     </>

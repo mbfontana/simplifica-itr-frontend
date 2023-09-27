@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Transition } from "../../../components/Transition";
 import { EditCustomer } from "./EditCustomer";
 
-export const EditCustomerBtn = ({ selectionModel, selectedData }) => {
+export const EditCustomerBtn = ({ selectionModel }) => {
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleOpenDialog = () => {
