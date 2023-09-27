@@ -11,7 +11,7 @@ type FormTextFieldProps = {
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
   label: string;
   type?: string;
-  disabled?: boolean
+  disabled?: boolean;
 };
 
 export const FormTextField = ({

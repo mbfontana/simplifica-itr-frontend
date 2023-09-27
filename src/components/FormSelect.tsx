@@ -19,9 +19,16 @@ type FormSelectProps = {
   data: Array<string>;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
   label: string;
+  disabled?: boolean;
 };
 
-export const FormSelect = ({ field, error, label, data }: FormSelectProps) => {
+export const FormSelect = ({
+  field,
+  error,
+  label,
+  data,
+  disabled,
+}: FormSelectProps) => {
   const [value, setValue] = useState<string>("");
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -37,6 +44,7 @@ export const FormSelect = ({ field, error, label, data }: FormSelectProps) => {
         value={value}
         onChange={handleChange}
         label={label}
+        disabled={disabled}
         error={error !== undefined}
         {...field}
       >
