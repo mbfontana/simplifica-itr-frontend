@@ -1,19 +1,11 @@
-import {
-  Card,
-  CardContent,
-  Dialog,
-  Slide,
-  Stack,
-  Typography,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import { Dialog, Stack, Typography } from "@mui/material";
+import PostAddIcon from "@mui/icons-material/PostAdd";
 import { GreenButton } from "../../../components/GreenButton";
-import { useState, forwardRef } from "react";
-import { TransitionProps } from "@mui/material/transitions";
-import { NewCustomer } from "./NewCustomer";
+import { useState } from "react";
 import { Transition } from "../../../components/Transition";
+import { GenerateTaxReport } from "./GenerateTaxReport";
 
-export const NewCustomerButton = () => {
+export const GenerateTaxReportBtn = () => {
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleOpenDialog = () => {
@@ -40,9 +32,9 @@ export const NewCustomerButton = () => {
           alignItems="center"
           spacing={2}
         >
-          <AddIcon sx={{ color: "#fff" }} />
+          <PostAddIcon sx={{ color: "#fff" }} />
           <Typography color="white" variant="body2">
-            Gerar declaracao
+            Gerar declaração
           </Typography>
         </Stack>
       </GreenButton>
@@ -51,8 +43,7 @@ export const NewCustomerButton = () => {
         onClose={handleCloseDialog}
         TransitionComponent={Transition}
       >
-        {/* Calls the component that controls the forms with the defaultValues and the FormProvider (root component) */}
-        <NewCustomer />
+        <GenerateTaxReport />
       </Dialog>
     </>
   );

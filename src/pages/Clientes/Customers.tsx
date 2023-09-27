@@ -52,10 +52,7 @@ export const Customers = () => {
                 placeholder="Pesquisar por cliente"
                 onSearch={handleSearch}
               />
-              <EditCustomerBtn
-                selectedData={selectedData}
-                selectionModel={selectionModel}
-              />
+              <EditCustomerBtn selectionModel={selectionModel} />
               <DeleteCustomerBtn
                 selectedData={selectedData}
                 selectionModel={selectionModel}
