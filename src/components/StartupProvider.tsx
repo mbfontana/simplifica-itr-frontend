@@ -6,9 +6,7 @@ interface StartupProviderProps {
   children: React.ReactNode;
 }
 
-export const reactQueryClient = new QueryClient({
-  defaultOptions: { queries: { staleTime: 1000 * 60 } },
-});
+export const reactQueryClient = new QueryClient();
 
 export const StartupProvider = ({ children }: StartupProviderProps) => {
   return (

@@ -15,9 +15,14 @@ import * as Form from "./LoginForm";
 import { MainAPI } from "../../../api/AuthenticatedAxios";
 import { useSessionStore } from "../../../stores/SessionStore";
 import { LoginUserResponse } from "../../../api/Login/types";
+import { getAllCities } from "../../../api/Cities";
+import { useCitiesStore } from "../../../stores/CitiesStore";
+import { getConditionTypes } from "../../../api/Conditions";
+import { useConditionTypesStore } from "../../../stores/ConditionTypesStore";
 
 export const LoginFormLayout = () => {
   const [checkbox, setCheckbox] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
   const breakPoint = useMediaQuery("(min-width:712px)");
   const navigate = useNavigate();
   const { handleSubmit } = useFormContext();
@@ -31,9 +36,19 @@ export const LoginFormLayout = () => {
       const loggedUser = response.data;
       useSessionStore.getState().setEmail(loggedUser.email);
       useSessionStore.getState().setToken(loggedUser.token);
+      const citiesResponse = await getAllCities();
+      if (citiesResponse) {
+        useCitiesStore.getState().setCities(citiesResponse.data);
+      }
+      const conditionTypesResponse = await getConditionTypes();
+      if (conditionTypesResponse) {
+        useConditionTypesStore
+          .getState()
+          .setConditionTypes(conditionTypesResponse.data);
+      }
       navigate("/main");
-    } catch (error: any) {
-      console.log("error", error);
+    } catch (error) {
+      setErrorMessage(true);
     }
   };
 
@@ -73,6 +88,11 @@ export const LoginFormLayout = () => {
             <Box component="img" src="logo.svg" alt="Logo" width="100%" />
           </Button>
           <form onSubmit={handleSubmit(onSubmitHandler)}>
+            {errorMessage && (
+              <Typography color="red" padding={0} marginBottom={4}>
+                Email ou senha incorretos
+              </Typography>
+            )}
             <Stack spacing={2}>
               <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                 <Form.InputEmail />

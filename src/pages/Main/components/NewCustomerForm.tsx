@@ -7,14 +7,20 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Controller, useFieldArray, useFormContext } from "react-hook-form";
+import {
+  Controller,
+  useFieldArray,
+  useFormContext,
+  useWatch,
+} from "react-hook-form";
 import { FormTextField } from "../../../components/FormTextField";
 import AddIcon from "@mui/icons-material/Add";
 import { FormSelect } from "../../../components/FormSelect";
 import { emptyAreas } from "./NewCustomer";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { GetAllCitiesResponse } from "../../../api/Cities/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useConditionTypesStore } from "../../../stores/ConditionTypesStore";
 
 // This file contains all the components that are input fields of the New Customer Forms
 // FormTextField is an example of a generic component used to build all kind of forms
@@ -501,6 +507,7 @@ export const PropertiesForm = ({ propertieIndex, cities }) => {
 type InputAreaProps = {
   index: number;
   propertieIndex: number;
+  disabled?: boolean;
 };
 
 export const InputAreaSize = ({ propertieIndex, index }: InputAreaProps) => {
@@ -514,7 +521,7 @@ export const InputAreaSize = ({ propertieIndex, index }: InputAreaProps) => {
       control={control}
       name={`properties.${propertieIndex}.areas.${index}.metreage`}
       render={({ field }) => (
-        <FormTextField field={{ ...field }} label="Área em m²" />
+        <FormTextField field={{ ...field }} label="Área em hectare" />
       )}
     />
   );
@@ -528,22 +535,16 @@ export const InputAreaCondition = ({
     control,
     formState: { errors },
   } = useFormContext();
-
+  const conditionTypes = useConditionTypesStore.getState().conditionTypes;
+  const conditions = conditionTypes.map((e) => e.description);
   return (
     <Controller
       control={control}
-      name={`properties.${propertieIndex}.areas.${index}.condition.type`}
+      name={`properties.${propertieIndex}.areas.${index}.condition.type.description`}
       render={({ field }) => (
         <FormSelect
           field={{ ...field }}
-          data={[
-            "Boa",
-            "Regular",
-            "Restrita",
-            "Plantada",
-            "Silvicultura",
-            "Preservacao",
-          ]}
+          data={conditions}
           label="Condição"
           // error={
           //   errors.properties[index]?.areas &&

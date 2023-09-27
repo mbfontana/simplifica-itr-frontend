@@ -1,16 +1,13 @@
 import { Stack, Box } from "@mui/material";
-import { DataGrid, GridRowModel } from "@mui/x-data-grid";
-import { useQuery } from "react-query";
-import { getAllCities } from "../../api/Cities";
-import { GetAllCitiesResponse } from "../../api/Cities/types";
+import { DataGrid } from "@mui/x-data-grid";
 import { SearchBar } from "../../components/SearchBar";
 import { CityColumns } from "./components/CityColumns";
 import { useState } from "react";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { useCitiesStore } from "../../stores/CitiesStore";
 
 export const Cities = () => {
-  const rowsQuery = useQuery(["cityRows"], getAllCities);
-  const rows: GridRowModel<GetAllCitiesResponse[]> = rowsQuery.data?.data;
+  const rows = useCitiesStore.getState().cities;
 
   const [filteredData, setFilteredData] = useState(rows ? rows : []);
   const [searchTerm, setSearchTerm] = useState("");

@@ -15,9 +15,8 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { registerCustomer } from "../../../api/Customers";
 import { useState } from "react";
 import { Toast } from "../../../components/Toast";
-import { useQuery, useQueryClient } from "react-query";
-import { getAllCities } from "../../../api/Cities";
-import { GetAllCitiesResponse } from "../../../api/Cities/types";
+import { useQueryClient } from "react-query";
+import { useCitiesStore } from "../../../stores/CitiesStore";
 
 export const NewCustomerFormLayout = () => {
   const [toastIsOpen, setToastIsOpen] = useState(false);
@@ -25,8 +24,7 @@ export const NewCustomerFormLayout = () => {
   const [toastEvent, setToastEvent] = useState<"success" | "error">("success");
   const queryClient = useQueryClient();
 
-  const citiesQuery = useQuery(["cityRows"], getAllCities);
-  const cities: GetAllCitiesResponse[] = citiesQuery.data?.data;
+  const cities = useCitiesStore.getState().cities;
 
   const { handleSubmit } = useFormContext();
   const { fields, append, remove } = useFieldArray({
