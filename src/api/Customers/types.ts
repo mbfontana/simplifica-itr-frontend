@@ -7,8 +7,11 @@ export type CityObject = {
 
 export type ConditionObject = {
   id: number;
-  type: string;
   value: number;
+  type: {
+    id: number;
+    description: string;
+  };
 };
 
 export type AreaObject = {
