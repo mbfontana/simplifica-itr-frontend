@@ -1,26 +1,22 @@
-import {
-  Avatar,
-  Button,
-  Stack,
-  Typography,
-  Box,
-  IconButton,
-} from "@mui/material";
+import { Avatar, Stack, Typography, IconButton } from "@mui/material";
 import { theme } from "../../../global/theme";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useState } from "react";
-
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
-import InboxIcon from "@mui/icons-material/Inbox";
-import DraftsIcon from "@mui/icons-material/Drafts";
+import { useEffect, useState } from "react";
+import { UserMenu } from "./UserMenu";
+import { useSessionStore } from "../../../stores/SessionStore";
 
 export const UserInfo = () => {
+  const [user, setUser] = useState({ name: null, email: null });
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setUser({
+      name: `${useSessionStore.getState().firstName} ${
+        useSessionStore.getState().lastName
+      }`,
+      email: useSessionStore.getState().email,
+    });
+  }, []);
 
   const handleOpen = () => {
     setOpen(!open);
@@ -28,60 +24,47 @@ export const UserInfo = () => {
 
   return (
     <Stack
-      direction="row"
-      justifyContent="flex-start"
-      alignItems="center"
-      spacing={2}
-      padding="24px 24px 0 24px"
+      direction="column"
+      justifyContent="center"
+      alignItems="flex-start"
+      width="100%"
+      spacing={1}
     >
-      <Avatar alt="" src="" />
       <Stack
-        direction="column"
+        direction="row"
         justifyContent="flex-start"
         alignItems="center"
-        spacing={0}
+        spacing={2}
+        padding="24px 24px 0 24px"
       >
+        <Avatar alt="" src="" />
         <Stack
-          direction="row"
+          direction="column"
           justifyContent="flex-start"
           alignItems="center"
           spacing={0}
         >
-          <Typography
-            variant="body2"
-            sx={{ color: theme.palette.text.secondary }}
+          <Stack
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="center"
+            spacing={0}
           >
-            Valmir Advocacia
-          </Typography>
-          <IconButton onClick={handleOpen}>
-            <ExpandMoreIcon
-              sx={{ color: theme.palette.text.secondary, width: "20px" }}
-            />
-          </IconButton>
+            <Typography
+              variant="body2"
+              sx={{ color: theme.palette.text.secondary }}
+            >
+              {user.name}
+            </Typography>
+            <IconButton onClick={handleOpen}>
+              <ExpandMoreIcon
+                sx={{ color: theme.palette.text.secondary, width: "20px" }}
+              />
+            </IconButton>
+          </Stack>
         </Stack>
       </Stack>
-      {open === true ? (
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Inbox" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <DraftsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Drafts" />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      ) : (
-        <></>
-      )}
+      <UserMenu open={open} />
     </Stack>
   );
 };
