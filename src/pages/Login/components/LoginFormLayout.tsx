@@ -34,6 +34,8 @@ export const LoginFormLayout = () => {
         password: e.password,
       });
       const loggedUser = response.data;
+      useSessionStore.getState().setFirstName(loggedUser.firstName);
+      useSessionStore.getState().setLastName(loggedUser.lastName);
       useSessionStore.getState().setEmail(loggedUser.email);
       useSessionStore.getState().setToken(loggedUser.token);
       const citiesResponse = await getAllCities();
