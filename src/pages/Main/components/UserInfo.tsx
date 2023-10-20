@@ -6,7 +6,11 @@ import { UserMenu } from "./UserMenu";
 import { useSessionStore } from "../../../stores/SessionStore";
 
 export const UserInfo = () => {
-  const [user, setUser] = useState({ name: null, email: null });
+  const [user, setUser] = useState({
+    name: null,
+    email: null,
+    avatar: null,
+  });
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -14,6 +18,7 @@ export const UserInfo = () => {
       name: `${useSessionStore.getState().firstName} ${
         useSessionStore.getState().lastName
       }`,
+      avatar: useSessionStore.getState().firstName[0],
       email: useSessionStore.getState().email,
     });
   }, []);
@@ -36,8 +41,14 @@ export const UserInfo = () => {
         alignItems="center"
         spacing={2}
         padding="24px 24px 0 24px"
+        onClick={handleOpen}
+        sx={{
+          ":hover": { cursor: "pointer" },
+        }}
       >
-        <Avatar alt="" src="" />
+        <Avatar alt="profile picture" sx={{ bgcolor: theme.palette.info.main }}>
+          {user.avatar}
+        </Avatar>
         <Stack
           direction="column"
           justifyContent="flex-start"
@@ -52,11 +63,14 @@ export const UserInfo = () => {
           >
             <Typography
               variant="body2"
-              sx={{ color: theme.palette.text.secondary }}
+              sx={{
+                color: theme.palette.text.secondary,
+                ":hover": { color: "white" },
+              }}
             >
               {user.name}
             </Typography>
-            <IconButton onClick={handleOpen}>
+            <IconButton>
               <ExpandMoreIcon
                 sx={{ color: theme.palette.text.secondary, width: "20px" }}
               />
@@ -64,7 +78,7 @@ export const UserInfo = () => {
           </Stack>
         </Stack>
       </Stack>
-      <UserMenu open={open} />
+      <UserMenu open={open} user={user} />
     </Stack>
   );
 };

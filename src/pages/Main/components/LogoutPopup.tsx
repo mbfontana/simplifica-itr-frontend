@@ -9,7 +9,6 @@ export const LogoutPopup = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log("entrou");
       useSessionStore.getState().clear();
       navigate("/");
     }, 1000);

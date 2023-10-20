@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Dialog,
   Divider,
   List,
@@ -12,34 +13,20 @@ import { theme } from "../../../global/theme";
 import LogoutIcon from "@mui/icons-material/Logout";
 import CheckIcon from "@mui/icons-material/Check";
 import { useSessionStore } from "../../../stores/SessionStore";
-import { useNavigate } from "react-router-dom";
 import { Transition } from "../../../components/Transition";
 import { LogoutPopup } from "./LogoutPopup";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 type UserMenuProps = {
   open: boolean;
+  user: { name: string; email: string; avatar: string };
 };
 
-export const UserMenu = ({ open }: UserMenuProps) => {
-  const [user, setUser] = useState({ name: null, email: null });
+export const UserMenu = ({ open, user }: UserMenuProps) => {
   const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
-
-  useEffect(() => {
-    setUser({
-      name: `${useSessionStore.getState().firstName} ${
-        useSessionStore.getState().lastName
-      }`,
-      email: useSessionStore.getState().email,
-    });
-  }, []);
 
   const handleOpenLogoutDialog = () => {
     setOpenLogoutDialog(true);
-  };
-
-  const handleCloseLogoutDialog = () => {
-    setOpenLogoutDialog(false);
   };
 
   return (
@@ -61,13 +48,21 @@ export const UserMenu = ({ open }: UserMenuProps) => {
               <Typography variant="body2" color="#A6A6A6">
                 CONTA
               </Typography>
-
               <Stack direction="row" spacing={2} sx={{ padding: "8px 0" }}>
                 <CheckIcon
                   sx={{ width: "24px", color: theme.palette.primary.main }}
                 />
-                <Avatar alt="" src="" sx={{ width: "30px", height: "30px" }} />
-
+                <Avatar
+                  alt="profile picture"
+                  sx={{
+                    width: "30px",
+                    height: "30px",
+                    bgcolor: theme.palette.info.main,
+                    fontSize: "16px",
+                  }}
+                >
+                  {user.avatar}
+                </Avatar>
                 <Stack>
                   <Typography fontSize="16px" fontWeight={500} color="#A6A6A6">
                     {user.name}
@@ -96,11 +91,7 @@ export const UserMenu = ({ open }: UserMenuProps) => {
               </ListItemButton>
             </ListItem>
           </List>
-          <Dialog
-            open={openLogoutDialog}
-            onClose={handleCloseLogoutDialog}
-            TransitionComponent={Transition}
-          >
+          <Dialog open={openLogoutDialog} TransitionComponent={Transition}>
             <LogoutPopup />
           </Dialog>
         </>

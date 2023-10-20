@@ -20,7 +20,7 @@ export const theme = createTheme({
       main: "#ff9800",
     },
     info: {
-      main: "#2196f3",
+      main: "#26589F",
     },
     success: {
       main: "#4caf50",
