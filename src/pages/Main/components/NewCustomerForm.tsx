@@ -401,15 +401,34 @@ export const InputPropertieCity = ({ index, cities }: InputPropertiesProps) => {
   );
 };
 
+export const InputPropertieTotalArea = ({ index }: InputPropertiesProps) => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
+  return (
+    <Controller
+      control={control}
+      name={`properties.${index}.totalArea`}
+      render={({ field }) => (
+        <FormTextField field={{ ...field }} label="Área total em hectares" />
+      )}
+    />
+  );
+};
+
 export const PropertiesForm = ({ propertieIndex, cities }) => {
   const { fields, append, remove } = useFieldArray({
     name: `properties.${propertieIndex}.areas`,
   });
+
   return (
     <Stack spacing={2} sx={{ width: "100%", marginBottom: "32px" }}>
       <InputPropertieName index={propertieIndex} />
       <InputPropertieNirf index={propertieIndex} />
       <InputPropertieCity index={propertieIndex} cities={cities} />
+      <InputPropertieTotalArea index={propertieIndex} />
 
       <Stack spacing={0}>
         <Stack spacing={2}>
@@ -513,6 +532,7 @@ type InputAreaProps = {
 export const InputAreaSize = ({ propertieIndex, index }: InputAreaProps) => {
   const {
     control,
+    getValues,
     formState: { errors },
   } = useFormContext();
 
@@ -520,8 +540,29 @@ export const InputAreaSize = ({ propertieIndex, index }: InputAreaProps) => {
     <Controller
       control={control}
       name={`properties.${propertieIndex}.areas.${index}.metreage`}
+      rules={{
+        validate: () => {
+          const areaSum = Number(
+            getValues(`properties.${propertieIndex}.areas`).reduce(
+              (sum: number, area) => sum + Number(area.metreage),
+
+              0
+            )
+          );
+          const totalArea = Number(
+            getValues(`properties.${propertieIndex}.totalArea`)
+          );
+          if (areaSum !== totalArea) {
+            return "Soma de áreas não é igual a área total";
+          }
+        },
+      }}
       render={({ field }) => (
-        <FormTextField field={{ ...field }} label="Área em hectare" />
+        <FormTextField
+          field={{ ...field }}
+          label="Área em hectare"
+          error={errors?.properties?.[propertieIndex]?.areas?.[index]?.metreage}
+        />
       )}
     />
   );
