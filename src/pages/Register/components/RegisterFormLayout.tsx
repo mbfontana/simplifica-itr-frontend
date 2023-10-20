@@ -24,12 +24,17 @@ export const RegisterFormLayout = () => {
 
   const tryRegisterUser = async (e: RegisterFormInternalType) => {
     try {
-      const response = await MainAPI.post<RegisterUserResponse>("/user/register", {
-        name: `${e.firstName} ${e.lastName}`,
-        email: e.email,
-        cpf: e.cpf,
-        password: e.password,
-      });
+      const response = await MainAPI.post<RegisterUserResponse>(
+        "/auth/register",
+        {
+          firstName: e.firstName,
+          lastName: e.lastName,
+          email: e.email,
+          phone: e.phone,
+          birth: e.birth,
+          password: e.password,
+        }
+      );
       const registeredUser = response.data;
       useSessionStore.getState().setEmail(registeredUser.email);
       useSessionStore.getState().setToken(registeredUser.token);
@@ -99,9 +104,26 @@ export const RegisterFormLayout = () => {
                   </Grid>
                 </Grid>
               </Stack>
-              <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                <Form.InputCpf />
-              </Box>
+              <Stack>
+                <Grid container width="100%" ml={0}>
+                  <Grid
+                    item
+                    sm={6}
+                    xs={12}
+                    sx={smBreakPoint ? { pr: 1.5, pb: 0 } : { pr: 0, pb: 1.5 }}
+                  >
+                    <Form.InputPhone />
+                  </Grid>
+                  <Grid
+                    item
+                    sm={6}
+                    xs={12}
+                    sx={smBreakPoint ? { pl: 1.5, pt: 0 } : { pl: 0, pt: 1.5 }}
+                  >
+                    <Form.InputBirth />
+                  </Grid>
+                </Grid>
+              </Stack>
               <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                 <Form.InputPassword />
               </Box>

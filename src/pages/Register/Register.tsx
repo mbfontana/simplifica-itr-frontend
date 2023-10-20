@@ -4,7 +4,8 @@ import { FormProvider, useForm } from "react-hook-form";
 export type RegisterFormInternalType = {
   firstName: string;
   lastName: string;
-  cpf: string;
+  phone?: string;
+  birth: string;
   email: string;
   password: string;
   checkbox: boolean;
@@ -15,7 +16,8 @@ export const Register = () => {
     defaultValues: {
       firstName: "",
       lastName: "",
-      cpf: "",
+      phone: "",
+      birth: "",
       email: "",
       password: "",
     },

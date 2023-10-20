@@ -1,56 +1,25 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { FormTextField } from "../../../components/FormTextField";
 
-const isEmailUnique = async (email: string) => {
-  var response;
-
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
-  var raw = JSON.stringify({
-    email: email,
-  });
-
-  var requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-  };
-
-  response = await fetch(
-    "https://localhost:7072/api/user/email",
-    requestOptions
-  )
-    .then((response) => {
-      if (response.status === 409) return "E-mail já registrado.";
-      else if (response.status === 200) return true;
-    })
-    .catch((error) => console.log("error", error));
-
-  return response;
-};
-
 export const InputEmail = () => {
   const {
     control,
     formState: { errors },
   } = useFormContext();
 
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
   return (
     <Controller
       control={control}
       name="email"
       rules={{
-        required: {
-          value: true,
-          message: "O endereço de e-mail é um campo obrigatório.",
-        },
+        required: { value: true, message: "O e-mail é obrigatório" },
         pattern: {
-          value:
-            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-          message: "O endereço de e-mail parece ser inválido.",
+          value: emailRegex,
+          message: "E-mail inválido",
         },
-        validate: { value: isEmailUnique },
+        // validate: { value: isEmailUnique },
       }}
       render={({ field }) => (
         <FormTextField
@@ -152,7 +121,7 @@ export const InputLastName = () => {
   );
 };
 
-export const InputCpf = () => {
+export const InputBirth = () => {
   const {
     control,
     formState: { errors },
@@ -161,19 +130,64 @@ export const InputCpf = () => {
   return (
     <Controller
       control={control}
-      name="cpf"
+      name="birth"
       rules={{
-        required: { value: true, message: "O CPF é obrigatório." },
-        maxLength: {value: 11, message: "Insira um CPF válido."},
-        minLength: {value: 11, message: "Insira um CPF válido."},
-        pattern: {
-          value:
-            /([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/,
-          message: "Insira um CPF válido.",
+        required: {
+          value: true,
+          message: "A data de nascimento é obrigatória",
         },
       }}
       render={({ field }) => (
-        <FormTextField field={{ ...field }} error={errors.cpf} label="CPF" />
+        <FormTextField
+          field={{ ...field }}
+          error={errors.birth}
+          label="Data de nascimento"
+          type="date"
+        />
+      )}
+    />
+  );
+};
+
+export const InputPhone = () => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
+  const phoneRegex = /^(\(\d{2}\)\s?)?9\d{4}-\d{4}$/;
+
+  const formatPhone = (value) => {
+    return value
+      .replace(/\D/g, "") // Remove any non-digit character
+      .replace(/^(\d{2})(\d)/g, "($1) $2") // Area code formatting
+      .replace(/(\d{1})(\d{4})(\d{4})/, "$1$2-$3") // 9XXXX-XXXX format
+      .substr(0, 15); // Limit to max phone length
+  };
+
+  return (
+    <Controller
+      control={control}
+      name="phone"
+      rules={{
+        pattern: {
+          value: phoneRegex,
+          message: "Telefone inválido",
+        },
+      }}
+      render={({ field }) => (
+        <FormTextField
+          field={{
+            ...field,
+            onChange: (e) => {
+              const formattedValue = formatPhone(e.target.value);
+              e.target.value = formattedValue; // Override the event's value
+              field.onChange(e); // Call original onChange provided by RHF's Controller
+            },
+          }}
+          error={errors.phone}
+          label="Telefone"
+        />
       )}
     />
   );
