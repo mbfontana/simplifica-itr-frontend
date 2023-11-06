@@ -1,0 +1,29 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-qemu-action@v1
+
+      - name: Login to Azure Container Registry
+        run: docker login simplificaitrapi.azurecr.io -u simplificaitrapi -p e1sQzLruOZ+wAVoXLlpLZOQrkR/jTyAlpJ8LR1v1RT+ACRC36r6E
+
+      - name: Build Docker image
+        run: docker build -t simplificaitrweb .
+
+      - name: Push Docker image
+        run: docker push simplificaitrweb
+
+      - name: Logout from Azure Container Registry
+        run: docker logout simplificaitrapi.azurecr.io
