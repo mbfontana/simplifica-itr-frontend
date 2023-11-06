@@ -149,7 +149,7 @@ export const InputBirth = () => {
         <FormTextField
           field={{ ...field }}
           error={errors.birth}
-          label="Data de nascimento"
+          // label="Data de nascimento"
           type="date"
         />
       )}

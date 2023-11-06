@@ -22,7 +22,7 @@ export const CityColumns: GridColDef[] = [
       renderCell: (data) => `R$ ${data.value}`,
     },
     {
-      field: "plantada",
+      field: "pastagem_plantada",
       headerName: "Pastagem Plantada",
       flex: 2,
       renderCell: (data) => `R$ ${data.value}`,

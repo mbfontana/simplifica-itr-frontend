@@ -9,7 +9,7 @@ import {
 type FormTextFieldProps = {
   field: ControllerRenderProps;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
-  label: string;
+  label?: string;
   type?: string;
   disabled?: boolean;
 };
@@ -24,7 +24,7 @@ export const FormTextField = ({
   return (
     <TextField
       fullWidth
-      label={label}
+      label={label || ""}
       type={type ? type : "text"}
       error={error !== undefined}
       helperText={error?.message.toString()}
