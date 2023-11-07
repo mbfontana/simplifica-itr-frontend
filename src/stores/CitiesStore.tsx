@@ -15,7 +15,7 @@ export const useCitiesStore = create<CitiesStoreProps>()(
     }),
     {
       name: "simplifica-itr-cities",
-      getStorage: () => sessionStorage,
+      getStorage: () => localStorage,
     }
   )
 );

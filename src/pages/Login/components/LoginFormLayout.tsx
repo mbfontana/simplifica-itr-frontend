@@ -38,16 +38,23 @@ export const LoginFormLayout = () => {
       useSessionStore.getState().setLastName(loggedUser.lastName);
       useSessionStore.getState().setEmail(loggedUser.email);
       useSessionStore.getState().setToken(loggedUser.token);
-      const citiesResponse = await getAllCities();
-      if (citiesResponse) {
-        useCitiesStore.getState().setCities(citiesResponse.data);
+
+      if (!useCitiesStore.getState().cities) {
+        const citiesResponse = await getAllCities();
+        if (citiesResponse) {
+          useCitiesStore.getState().setCities(citiesResponse.data);
+        }
       }
-      const conditionTypesResponse = await getConditionTypes();
-      if (conditionTypesResponse) {
-        useConditionTypesStore
-          .getState()
-          .setConditionTypes(conditionTypesResponse.data);
+
+      if (!useConditionTypesStore.getState().conditionTypes) {
+        const conditionTypesResponse = await getConditionTypes();
+        if (conditionTypesResponse) {
+          useConditionTypesStore
+            .getState()
+            .setConditionTypes(conditionTypesResponse.data);
+        }
       }
+
       navigate("/main");
     } catch (error) {
       setErrorMessage(true);

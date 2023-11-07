@@ -15,7 +15,7 @@ export const useConditionTypesStore = create<ConditionTypesStoreProps>()(
     }),
     {
       name: "simplifica-itr-condition-types",
-      getStorage: () => sessionStorage,
+      getStorage: () => localStorage,
     }
   )
 );
