@@ -1,13 +1,33 @@
-import { Button, Dialog } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  Dialog,
+  Stack,
+  Typography,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { NewCustomer } from "../../Main/components/NewCustomer";
 import { useState } from "react";
 import { Transition } from "../../../components/Transition";
+import { getUserSubscription } from "../../../api/Subscription";
+import { LoadingSpinner } from "../../../components/LoadingSpinner";
+import { GetUserSubscription } from "../../../api/Subscription/types";
+import { SubscriptionLimited } from "./SubscriptionLimited";
 
 export const CreateCustomerBtn = () => {
   const [openDialog, setOpenDialog] = useState(false);
+  const [isSubscriptionLimited, setIsSubscriptionLimited] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [subscription, setSubscription] = useState<GetUserSubscription>(null);
 
-  const handleOpenDialog = () => {
+  const handleOpenDialog = async () => {
+    setIsLoading(true);
+    const subscriptionResponse = await getUserSubscription();
+    const subscription = subscriptionResponse.data;
+    setSubscription(subscription);
+    setIsSubscriptionLimited(subscription.isSubscriptionLimited);
+    setIsLoading(false);
     setOpenDialog(true);
   };
 
@@ -18,15 +38,18 @@ export const CreateCustomerBtn = () => {
   return (
     <>
       <Button variant="contained" onClick={handleOpenDialog}>
-        <AddIcon />
+        {isLoading ? <LoadingSpinner size={18} /> : <AddIcon />}
       </Button>
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
         TransitionComponent={Transition}
       >
-        {/* Calls the component that controls the forms with the defaultValues and the FormProvider (root component) */}
-        <NewCustomer />
+        {isSubscriptionLimited ? (
+          <SubscriptionLimited {...subscription} />
+        ) : (
+          <NewCustomer />
+        )}
       </Dialog>
     </>
   );
