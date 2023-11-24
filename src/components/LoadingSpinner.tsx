@@ -1,6 +1,10 @@
 import { Box, CircularProgress } from "@mui/material";
 
-export const LoadingSpinner = () => {
+type LoadingSpinnerProps = {
+  size?: number;
+};
+
+export const LoadingSpinner = ({ size }: LoadingSpinnerProps) => {
   return (
     <Box
       height="100%"
@@ -9,7 +13,7 @@ export const LoadingSpinner = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <CircularProgress color="inherit" />
+      <CircularProgress color="inherit" size={size || 40} />
     </Box>
   );
 };

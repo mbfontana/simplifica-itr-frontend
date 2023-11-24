@@ -7,6 +7,7 @@ import { Cities } from "./pages/Cidades/Cities";
 import { Customers } from "./pages/Clientes/Customers";
 import { Register } from "./pages/Register/Register";
 import { MainLayout } from "./pages/Main/components/MainLayout";
+import { PersonalSettings } from "./pages/PersonalSettings/PersonalSettings";
 
 const App = () => {
   const location = useLocation();
@@ -39,6 +40,16 @@ const App = () => {
         <Route path="cities" element={<Cities />} />
         <Route path="clientes" element={<Customers />} />
       </Route>
+
+      <Route
+        path="settings"
+        element={
+          <CheckAuthentication
+            isAuth={<PersonalSettings />}
+            isNotAuth={<Login />}
+          />
+        }
+      />
     </Routes>
   );
 };
