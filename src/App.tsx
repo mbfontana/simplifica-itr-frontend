@@ -8,12 +8,15 @@ import { Customers } from "./pages/Clientes/Customers";
 import { Register } from "./pages/Register/Register";
 import { MainLayout } from "./pages/Main/components/MainLayout";
 import { PersonalSettings } from "./pages/PersonalSettings/PersonalSettings";
+import { Plans } from "./pages/Plans/Plans";
 
 const App = () => {
   const location = useLocation();
   return (
     <Routes>
       <Route index element={<Home />} />
+      
+      <Route path="planos" element={<Plans />} />
 
       <Route
         path="login"

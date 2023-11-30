@@ -74,7 +74,7 @@ const RightNav = styled.div`
 const pages = [
   { text: "Sobre", url: "#" },
   { text: "Recursos", url: "#" },
-  { text: "Planos", url: "#" },
+  { text: "Planos", url: "/planos" },
   { text: "Ajuda", url: "#" },
 ];
 

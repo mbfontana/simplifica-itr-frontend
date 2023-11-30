@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const pages = [
   { text: "Sobre", url: "#" },
   { text: "Recursos", url: "#" },
-  { text: "Planos", url: "#" },
+  { text: "Planos", url: "/planos" },
 ];
 
 export const NavBar = () => {
@@ -60,7 +60,7 @@ export const NavBar = () => {
               <NavLink url="#" text="Ajuda" />
               <GreenButton
                 sx={{ width: "150px" }}
-                onClick={() => navigate("main")}
+                onClick={() => navigate("/main")}
               >
                 Entre
               </GreenButton>
