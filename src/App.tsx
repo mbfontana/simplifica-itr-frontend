@@ -8,15 +8,15 @@ import { Customers } from "./pages/Clientes/Customers";
 import { Register } from "./pages/Register/Register";
 import { MainLayout } from "./pages/Main/components/MainLayout";
 import { PersonalSettings } from "./pages/PersonalSettings/PersonalSettings";
-import { Plans } from "./pages/Plans/Plans";
+import { Subscriptions } from "./pages/Subscriptions/Subscriptions";
 
 const App = () => {
   const location = useLocation();
   return (
     <Routes>
       <Route index element={<Home />} />
-      
-      <Route path="planos" element={<Plans />} />
+
+      <Route path="subscriptions" element={<Subscriptions />} />
 
       <Route
         path="login"

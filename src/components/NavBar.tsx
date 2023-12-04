@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const pages = [
   { text: "Sobre", url: "#" },
   { text: "Recursos", url: "#" },
-  { text: "Planos", url: "/planos" },
+  { text: "Planos", url: "/subscriptions" },
 ];
 
 export const NavBar = () => {

@@ -14,9 +14,9 @@ import { GreenButton } from "../../../components/GreenButton";
 import { useNavigate } from "react-router-dom";
 
 type PlanDescriptionCardProps = {
-  title: string;
+  name: string;
   monthlyPrice: number;
-  anualPrice?: number;
+  yearlyPrice?: number;
   description: string;
   buttonText: string;
   buttonLink: string;
@@ -25,9 +25,9 @@ type PlanDescriptionCardProps = {
 };
 
 export const PlanDescriptionCard = ({
-  title,
+  name,
   monthlyPrice,
-  anualPrice,
+  yearlyPrice,
   description,
   buttonText,
   buttonLink,
@@ -58,7 +58,7 @@ export const PlanDescriptionCard = ({
             textAlign: "left",
           }}
         >
-          {title}
+          {name}
         </Typography>
 
         <Stack
@@ -117,12 +117,13 @@ export const PlanDescriptionCard = ({
           <></>
         )}
         <Box marginTop={1}>
-          {features.map((feature) => (
+          {features.map((feature, index) => (
             <Stack
               direction="row"
               alignItems="center"
               justifyContent="flex-start"
               spacing={1}
+              key={index}
             >
               <CheckIcon color="primary" sx={{ width: "18px" }} />
               <Typography fontSize="16px" fontWeight={400}>

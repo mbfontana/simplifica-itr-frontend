@@ -4,6 +4,7 @@ import { UserInfo } from "./UserInfo";
 import { GenerateTaxReportBtn } from "./GenerateTaxReportBtn";
 import { MenuItems } from "./MenuItems";
 import { SidebarItem } from "./SidebarItem";
+import { UpgradeSubscriptionButton } from "./UpgradeSubscriptionButton";
 
 export const Sidebar = () => {
   return (
@@ -23,6 +24,7 @@ export const Sidebar = () => {
         <GenerateTaxReportBtn />
       </SidebarItem>
       <MenuItems />
+      <UpgradeSubscriptionButton />
     </Stack>
   );
 };

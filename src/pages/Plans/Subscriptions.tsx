@@ -5,37 +5,10 @@ import { useMediaQuery } from "@mui/material";
 import { theme } from "../../global/theme";
 import { Footer } from "../../components/Footer";
 import { PlanDescriptionCard } from "./components/PlanDescriptionCard";
+import { getAllSubscriptions } from "../../api/Subscription";
+import { useQuery } from "react-query";
 
-const plansDetails = [
-  {
-    title: "FREE",
-    monthlyPrice: 0,
-    description: "Capture ideias e encontre-as rapidamente",
-    buttonText: "Introdução",
-    buttonLink: "/register",
-    features: ["Feature 1", "Feature 2", "Feature 3"],
-  },
-  {
-    title: "PERSONAL",
-    monthlyPrice: 0,
-    description: "Capture ideias e encontre-as rapidamente",
-    buttonText: "Escolha o Personal",
-    buttonLink: "/register",
-    compareDescription: "Todo no FREE, mais:",
-    features: ["Feature 1", "Feature 2", "Feature 3"],
-  },
-  {
-    title: "PROFESSIONAL",
-    monthlyPrice: 0,
-    description: "Capture ideias e encontre-as rapidamente",
-    buttonText: "Escolha o Professional",
-    buttonLink: "/register",
-    compareDescription: "Todo do PERSONAL, mais:",
-    features: ["Feature 1", "Feature 2", "Feature 3"],
-  },
-];
-
-export const Plans = () => {
+export const Subscriptions = () => {
   const scrollPosition = useScrolPosition();
   const mdBreakPoint = useMediaQuery("(min-width:1220px)");
   const smBreakPoint = useMediaQuery("(min-width:769px)");
@@ -45,7 +18,10 @@ export const Plans = () => {
   else if (smBreakPoint) margin = "0 40px";
   else margin = "0 20px";
 
-  return (
+  const queryPlansDetails = useQuery(["plansDetails"], getAllSubscriptions);
+  const plansDetails = queryPlansDetails.data?.data;
+
+  return plansDetails ? (
     <Box maxHeight="100vh" height="100vh">
       <Box
         position="fixed"
@@ -84,7 +60,7 @@ export const Plans = () => {
         <Box maxWidth="1220px" m={margin} marginTop="64px" height="100%">
           <Grid container direction="row" spacing={2}>
             {plansDetails.map((plan) => (
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={4} key={plan.id}>
                 <PlanDescriptionCard {...plan} />
               </Grid>
             ))}
@@ -96,5 +72,7 @@ export const Plans = () => {
         </Box>
       </Stack>
     </Box>
+  ) : (
+    <></>
   );
 };

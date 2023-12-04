@@ -74,7 +74,7 @@ const RightNav = styled.div`
 const pages = [
   { text: "Sobre", url: "#" },
   { text: "Recursos", url: "#" },
-  { text: "Planos", url: "/planos" },
+  { text: "Planos", url: "/subscriptions" },
   { text: "Ajuda", url: "#" },
 ];
 
@@ -91,8 +91,8 @@ export const MenuBurger = () => {
       </StyledBurger>
       <RightNav open={open}>
         <ul>
-          {pages.map((page) => (
-            <li>
+          {pages.map((page, index) => (
+            <li key={index}>
               <Typography variant="body1" onClick={() => navigate(page.url)}>
                 {page.text}
               </Typography>

@@ -53,7 +53,7 @@ export const DeleteCustomerBtn = ({ selectedData, selectionModel }) => {
         onClose={handleCloseDialog}
         TransitionComponent={Transition}
       >
-        <Card sx={{ overflowY: "auto" }}>
+        <Card sx={{ overflowY: "auto", padding: 1 }}>
           <CardContent>
             <Typography
               sx={{
