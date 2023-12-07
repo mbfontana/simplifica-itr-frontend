@@ -170,7 +170,6 @@ export const InputEmail = () => {
       control={control}
       name="email"
       rules={{
-        required: { value: true, message: "O e-mail é obrigatório" },
         pattern: {
           value: emailRegex,
           message: "E-mail inválido",
@@ -296,7 +295,7 @@ export const InputPropertieNirf = ({ index }: InputPropertiesProps) => {
     formState: { errors },
   } = useFormContext();
 
-  const nirfRegex = /^\d{9}$/;
+  const nirfRegex = /^\d{8}$/;
 
   return (
     <Controller
