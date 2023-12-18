@@ -25,6 +25,7 @@ export type PropertyObject = {
   name: string;
   nirf: string;
   city: CityObject;
+  totalArea: number;
   areas: AreaObject[];
 };
 

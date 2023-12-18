@@ -14,6 +14,7 @@ export const emptyProperties: PropertyObject = {
   id: 0,
   name: "",
   nirf: "",
+  totalArea: 0,
   city: {
     id: 0,
     name: "",
