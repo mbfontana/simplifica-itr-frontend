@@ -10,21 +10,37 @@ export const Sidebar = () => {
   return (
     <Stack
       direction="column"
-      alignItems="flex-start"
+      alignItems="space-between"
       justifyContent="flex-start"
-      spacing={4}
-      minWidth="280px"
       height="100vh"
-      sx={{ backgroundColor: "#1A1A1A" }}
+      minWidth="280px"
     >
-      <SidebarItem alignItems="flex-start">
-        <UserInfo />
-      </SidebarItem>
-      <SidebarItem alignItems="center">
-        <GenerateTaxReportBtn />
-      </SidebarItem>
-      <MenuItems />
-      <UpgradeSubscriptionButton />
+      <Stack
+        direction="column"
+        alignItems="flex-start"
+        justifyContent="flex-start"
+        spacing={4}
+        height="100vh"
+        sx={{ backgroundColor: "#1A1A1A" }}
+      >
+        <SidebarItem alignItems="flex-start">
+          <UserInfo />
+        </SidebarItem>
+        <SidebarItem alignItems="center">
+          <GenerateTaxReportBtn />
+        </SidebarItem>
+        <MenuItems />
+      </Stack>
+      <Stack
+        padding={3}
+        height="70px"
+        sx={{
+          backgroundColor: "black",
+          borderTop: `solid 1px ${theme.palette.text.secondary}`,
+        }}
+      >
+        <UpgradeSubscriptionButton />
+      </Stack>
     </Stack>
   );
 };
