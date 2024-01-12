@@ -27,8 +27,7 @@ const createClient = (baseURL: string) => {
   return client;
 };
 
-//export const MainAPI = createClient("https://simplificaitrapi.azurewebsites.net"); // Use the AppConfig in the future
-export const MainAPI = createClient("http://localhost:3001"); // Use the AppConfig in the future
+export const MainAPI = createClient("https://simplificaitrapi.azurewebsites.net"); // Use the AppConfig in the future
 export const HomeAPI = createClient("");
 
 const lookup = {
