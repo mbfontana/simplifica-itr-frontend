@@ -2,31 +2,50 @@ import {
   Button,
   Card,
   CardContent,
+  Dialog,
   IconButton,
   List,
   ListItem,
   Stack,
   Typography,
+  styled,
 } from "@mui/material";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import * as Form from "./NewCustomerForm";
 import { emptyProperties } from "./NewCustomer";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { registerCustomer } from "../../../api/Customers";
+import { extractPDF, registerCustomer } from "../../../api/Customers";
 import { useState } from "react";
 import { Toast } from "../../../components/Toast";
 import { useQueryClient } from "react-query";
 import { useCitiesStore } from "../../../stores/CitiesStore";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { getUserSubscription } from "../../../api/Subscription";
+import { Transition } from "../../../components/Transition";
+import { UpgradeSubscription } from "./UpgradeSubscription";
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
 export const NewCustomerFormLayout = () => {
   const [toastIsOpen, setToastIsOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastEvent, setToastEvent] = useState<"success" | "error">("success");
+  const [openDialog, setOpenDialog] = useState(false);
   const queryClient = useQueryClient();
 
   const cities = useCitiesStore.getState().cities;
 
-  const { handleSubmit } = useFormContext();
+  const { handleSubmit, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     name: "properties",
   });
@@ -55,6 +74,57 @@ export const NewCustomerFormLayout = () => {
       });
   };
 
+  const handleAutoFill = async (event) => {
+    event.preventDefault();
+
+    const subscriptionResponse = await getUserSubscription();
+    const subscription = subscriptionResponse.data;
+
+    if (subscription.id !== 1) {
+      setOpenDialog(true);
+    } else {
+      document.getElementById("pdf-upload-input").click();
+    }
+  };
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (file?.type === "application/pdf") {
+      const formData = new FormData();
+      formData.append("file", file);
+      const extractedCustomerResponse = await extractPDF(formData);
+      const extractedCustomer = extractedCustomerResponse.data;
+
+      setValue("firstName", extractedCustomer.firstName);
+      setValue("lastName", extractedCustomer.lastName);
+      setValue("birth", extractedCustomer.birth);
+      setValue("cpf", extractedCustomer.cpf);
+      if (
+        extractedCustomer.properties &&
+        Array.isArray(extractedCustomer.properties)
+      ) {
+        // first clear existing fields
+        fields.forEach((_, index) => remove(index));
+
+        // then append new fields
+        extractedCustomer.properties.forEach((property) => {
+          append(property);
+        });
+      }
+    } else {
+      setToastEvent("error");
+      setToastIsOpen(true);
+      setToastMessage("Declaração Inválida.");
+      setTimeout(() => {
+        setToastIsOpen(false);
+      }, 1000 * 6);
+    }
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -64,6 +134,20 @@ export const NewCustomerFormLayout = () => {
               <Typography sx={{ fontSize: "1.5rem" }}>
                 Cadastro de Cliente
               </Typography>
+
+              <Button
+                component="label"
+                variant="contained"
+                startIcon={<CloudUploadIcon />}
+                onClick={handleAutoFill}
+              >
+                Preencher com declaração antiga
+              </Button>
+              <VisuallyHiddenInput
+                id="pdf-upload-input"
+                type="file"
+                onChange={handleFileUpload}
+              />
 
               <Stack spacing={2}>
                 <Typography
@@ -183,6 +267,13 @@ export const NewCustomerFormLayout = () => {
         </Card>
       </form>
       <Toast isOpen={toastIsOpen} message={toastMessage} event={toastEvent} />
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        TransitionComponent={Transition}
+      >
+        <UpgradeSubscription />
+      </Dialog>
     </>
   );
 };

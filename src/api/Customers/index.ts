@@ -55,3 +55,6 @@ export const deleteCustomer = (cpf) =>
   MainAPI.delete("/customers", {
     data: { cpf },
   });
+
+export const extractPDF = async (formData) =>
+  MainAPI.post<GetCustomerResponse>("/customers/extract-pdf", formData);
