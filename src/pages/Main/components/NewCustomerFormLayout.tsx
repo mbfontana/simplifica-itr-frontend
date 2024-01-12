@@ -80,7 +80,7 @@ export const NewCustomerFormLayout = () => {
     const subscriptionResponse = await getUserSubscription();
     const subscription = subscriptionResponse.data;
 
-    if (subscription.id !== 1) {
+    if (subscription.id === 1) {
       setOpenDialog(true);
     } else {
       document.getElementById("pdf-upload-input").click();
@@ -89,9 +89,11 @@ export const NewCustomerFormLayout = () => {
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
+
     if (file?.type === "application/pdf") {
       const formData = new FormData();
       formData.append("file", file);
+
       const extractedCustomerResponse = await extractPDF(formData);
       const extractedCustomer = extractedCustomerResponse.data;
 
@@ -99,14 +101,12 @@ export const NewCustomerFormLayout = () => {
       setValue("lastName", extractedCustomer.lastName);
       setValue("birth", extractedCustomer.birth);
       setValue("cpf", extractedCustomer.cpf);
+
       if (
         extractedCustomer.properties &&
         Array.isArray(extractedCustomer.properties)
       ) {
-        // first clear existing fields
         fields.forEach((_, index) => remove(index));
-
-        // then append new fields
         extractedCustomer.properties.forEach((property) => {
           append(property);
         });
