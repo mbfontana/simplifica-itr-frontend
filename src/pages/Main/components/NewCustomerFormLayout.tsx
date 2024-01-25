@@ -108,6 +108,8 @@ export const NewCustomerFormLayout = () => {
       ) {
         fields.forEach((_, index) => remove(index));
         extractedCustomer.properties.forEach((property) => {
+          const cityId = cities.find((e) => e.name === property.city.name)?.id;
+          property["cityId"] = cityId;
           append(property);
         });
       }
@@ -139,8 +141,7 @@ export const NewCustomerFormLayout = () => {
                 component="label"
                 variant="contained"
                 startIcon={<CloudUploadIcon />}
-                onClick={handleAutoFill}
-              >
+                onClick={handleAutoFill}>
                 Preencher com declaração antiga
               </Button>
               <VisuallyHiddenInput
@@ -157,8 +158,7 @@ export const NewCustomerFormLayout = () => {
                     borderBottom: "solid 1px",
                     borderColor: "divider",
                     pb: 2,
-                  }}
-                >
+                  }}>
                   Informações pessoais
                 </Typography>
                 <Form.InputFirstName />
@@ -178,8 +178,7 @@ export const NewCustomerFormLayout = () => {
                       borderBottom: "solid 1px",
                       borderColor: "divider",
                       pb: 2,
-                    }}
-                  >
+                    }}>
                     Propriedades
                   </Typography>
                   <List>
@@ -192,21 +191,18 @@ export const NewCustomerFormLayout = () => {
                             flexDirection: "column",
                             alignItems: "flex-start",
                             p: 0,
-                          }}
-                        >
+                          }}>
                           <Stack
                             direction="row"
                             alignItems="flex-start"
                             justifyContent="flex-start"
                             width="100%"
-                            spacing={4}
-                          >
+                            spacing={4}>
                             <Stack
                               direction="column"
                               alignItems="center"
                               justifyContent="center"
-                              spacing={2}
-                            >
+                              spacing={2}>
                               <Typography
                                 variant="body2"
                                 sx={{
@@ -217,8 +213,7 @@ export const NewCustomerFormLayout = () => {
                                   display: "flex",
                                   alignItems: "center",
                                   justifyContent: "center",
-                                }}
-                              >
+                                }}>
                                 {index + 1}
                               </Typography>
                               <IconButton
@@ -229,8 +224,7 @@ export const NewCustomerFormLayout = () => {
                                   color: "#FF1F1F",
                                   backgroundColor: "#FFB2B2",
                                   "&:hover": { backgroundColor: "#FFCCCC" },
-                                }}
-                              >
+                                }}>
                                 <DeleteOutlineIcon />
                               </IconButton>
                             </Stack>
@@ -251,8 +245,7 @@ export const NewCustomerFormLayout = () => {
                   onClick={() => {
                     append([emptyProperties]);
                   }}
-                  sx={{ width: "270px", borderRadius: 5 }}
-                >
+                  sx={{ width: "270px", borderRadius: 5 }}>
                   Adicionar propriedade
                 </Button>
               </Stack>
@@ -270,8 +263,7 @@ export const NewCustomerFormLayout = () => {
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
-        TransitionComponent={Transition}
-      >
+        TransitionComponent={Transition}>
         <UpgradeSubscription />
       </Dialog>
     </>
