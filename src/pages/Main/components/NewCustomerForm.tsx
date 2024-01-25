@@ -7,19 +7,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {
-  Controller,
-  useFieldArray,
-  useFormContext,
-  useWatch,
-} from "react-hook-form";
+import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import { FormTextField } from "../../../components/FormTextField";
 import AddIcon from "@mui/icons-material/Add";
 import { FormSelect } from "../../../components/FormSelect";
 import { emptyAreas } from "./NewCustomer";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { GetAllCitiesResponse } from "../../../api/Cities/types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useConditionTypesStore } from "../../../stores/ConditionTypesStore";
 
 // This file contains all the components that are input fields of the New Customer Forms
@@ -68,7 +63,6 @@ export const InputLastName = () => {
       control={control}
       name="lastName"
       rules={{
-        required: { value: true, message: "O sobrenome é obrigatório" },
         maxLength: {
           value: 30,
           message: "O sobrenome é muito longo (máximo de 30 caracteres)",
