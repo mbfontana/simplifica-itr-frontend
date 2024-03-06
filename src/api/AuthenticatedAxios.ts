@@ -20,7 +20,7 @@ const createClient = (baseURL: string) => {
 
   client.interceptors.request.use((config) => {
     const token = useSessionStore.getState().token;
-    config.headers = { Authorization: `Bearer ${token}` };
+    config.headers.Authorization =  `Bearer ${token}`;
     return config;
   });
 

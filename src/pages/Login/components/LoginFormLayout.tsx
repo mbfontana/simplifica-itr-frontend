@@ -39,7 +39,7 @@ export const LoginFormLayout = () => {
       useSessionStore.getState().setEmail(loggedUser.email);
       useSessionStore.getState().setToken(loggedUser.token);
 
-      if (!useCitiesStore.getState().cities) {
+      if (useCitiesStore.getState().cities?.length === 0) {
         const citiesResponse = await getAllCities();
         if (citiesResponse) {
           useCitiesStore.getState().setCities(citiesResponse.data);

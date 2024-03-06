@@ -33,6 +33,7 @@ export const RegisterFormLayout = () => {
           phone: e.phone,
           birth: e.birth,
           password: e.password,
+          subscriptionId: "1"
         }
       );
       const registeredUser = response.data;
