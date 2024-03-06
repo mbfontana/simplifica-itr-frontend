@@ -2,7 +2,7 @@ import { GridColDef } from "@mui/x-data-grid";
 
 export const CustomersColumns: GridColDef[] = [
   { field: "firstName", headerName: "Nome", type: "string", flex: 1 },
-  { field: "lastName", headerName: "Sobrenome", type: "string", flex: 1 },
+  //{ field: "lastName", headerName: "Sobrenome", type: "string", flex: 1 },
   { field: "email", headerName: "E-mail", type: "string", flex: 1 },
   {
     field: "cpf",
