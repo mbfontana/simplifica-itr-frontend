@@ -162,7 +162,7 @@ export const NewCustomerFormLayout = () => {
                   Informações pessoais
                 </Typography>
                 <Form.InputFirstName />
-                <Form.InputLastName />
+                {/*<Form.InputLastName />*/}
                 <Form.InputPhone />
                 <Form.InputBirth />
                 <Form.InputEmail />

@@ -78,7 +78,7 @@ export const EditCustomerFormLayout = ({ customerDetailed }) => {
                   Informações pessoais
                 </Typography>
                 <Form.InputFirstName />
-                <Form.InputLastName />
+                {/*<Form.InputLastName />*/}
                 <Form.InputPhone />
                 <Form.InputBirth />
                 <Form.InputEmail />
