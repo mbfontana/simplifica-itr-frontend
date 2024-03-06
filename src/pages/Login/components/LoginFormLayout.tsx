@@ -39,7 +39,8 @@ export const LoginFormLayout = () => {
       useSessionStore.getState().setEmail(loggedUser.email);
       useSessionStore.getState().setToken(loggedUser.token);
 
-      if (useCitiesStore.getState().cities?.length === 0) {
+      if (!useCitiesStore.getState().cities) {
+        console.log("entrou");
         const citiesResponse = await getAllCities();
         if (citiesResponse) {
           useCitiesStore.getState().setCities(citiesResponse.data);
