@@ -121,16 +121,6 @@ const StepComponent1 = () => {
         <Stack spacing={2} sx={{ marginTop: "22px" }}>
           <Stack spacing={2} direction="row" justifyContent="space-between">
             <EditCustomerTextField
-              label="Nome"
-              value={selectedCustomer.firstName}
-            />
-            <EditCustomerTextField
-              label="Sobrenome"
-              value={selectedCustomer.lastName}
-            />
-          </Stack>
-          <Stack spacing={2} direction="row" justifyContent="space-between">
-            <EditCustomerTextField
               label="Data de nascimento"
               value={selectedCustomer.birth}
             />
